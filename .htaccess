@@ -1,0 +1,7 @@
+RewriteEngine on
+###RewriteBase /
+
+RewriteCond $1 !^(index\.php|images|css|upload|js|robots\.txt|favicon\.ico)
+RewriteCond %{REQUEST_FILENAME} !^(.*)\.(gif|png|jpg|jpeg|css|js|html|doc)$ [NC]
+RewriteRule ^(.*)$ index.php?/$1 [L]
+###RewriteRule ^(.*)$ index.php [L,E=PATH_INFO:$1]
