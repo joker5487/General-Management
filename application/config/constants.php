@@ -83,3 +83,11 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+define('PUBLIC_CSS_URL', APPPATH . 'public/stylesheet/');
+define('PUBLIC_JS_URL', APPPATH . 'public/javascript/');
+define('PUBLIC_IMG_URL', APPPATH . 'public/images/');
+
+define('ADMIN_CSS_URL', APPPATH . 'public/stylesheet/admin/');
+define('ADMIN_JS_URL', APPPATH . 'public/javascript/admin/');
+define('ADMIN_IMG_URL', APPPATH . 'public/images/admin/');
