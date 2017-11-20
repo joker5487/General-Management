@@ -14,7 +14,18 @@ class Admin_Test extends Admin_Controller{
     }
 
     public function index(){
-        $data = ['key1' => 'val1', 'key2' => 'val2'];
-        $this->P($data);
+        $layout = [];
+        $layout['page'] = 'test';
+        $layout['title'] = 'Page1';
+        $layout['asideMenu'] = config_item('asideMenu');
+        $layout['base_url'] = base_url();
+        $this->assign('layout', $layout);
+
+        $data = [];
+        $data['describe'] = '这个控制器及其对应的页面均为系统测试页面！！！';
+        $data['testKey001'] = 'testVal001';
+        $this->assign('data', $data);
+
+        $this->display(APPPATH . 'views/templates/admin/layout.html');
     }
 }
