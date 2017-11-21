@@ -84,6 +84,8 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
+define('LAYOUT_PATH', APPPATH . 'views/templates/admin/layout.html');
+
 define('PUBLIC_CSS_URL', APPPATH . 'public/stylesheet/');
 define('PUBLIC_JS_URL', APPPATH . 'public/javascript/');
 define('PUBLIC_IMG_URL', APPPATH . 'public/images/');

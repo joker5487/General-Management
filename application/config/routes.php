@@ -54,3 +54,4 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['admin/test/index'] = 'adminController/Admin_Test/index';
+$route['admin/user/list']  = 'adminController/User/user_list';
