@@ -22,4 +22,14 @@ class Admin_Controller extends MY_Controller{
         echo '</pre>';
     }
 
+    public function ajax_return($status = '200', $data = array(), $msg = ''){
+        $return = [];
+        $return['status'] = $status;
+        $return['data'] = $data;
+        $return['msg'] = $msg;
+
+        echo json_encode($return);
+        exit;
+    }
+
 }

@@ -25,12 +25,17 @@ class User extends Admin_Controller
         $layout['base_url'] = base_url();
         $this->assign('layout', $layout);
 
+        $this->display(ADMIN_LAYOUT_PATH);
+    }
+
+    public function get_user_list(){
         $userList = $this->userModel->get_user_list();
-        $data['userList'] = $userList;
-        $this->assign('data', $data);
 
-        $this->P($data);exit;
+        $this->ajax_return('200', $userList, 'success get user list!');
+    }
 
-        $this->display(LAYOUT_PATH);
+    public function user_add(){
+        $userInfo = [];
+        $userName = $this->input->post('userName');
     }
 }

@@ -36,18 +36,8 @@
                         <th>createdTime</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {foreach $data.userList as $key => $userItem}
-                    <tr>
-                        <td>{$userItem.id}</td>
-                        <td>{$userItem.headImage}</td>
-                        <td>{$userItem.userName}</td>
-                        <td>{$userItem.realName}</td>
-                        <td>{$userItem.email}</td>
-                        <td>{$userItem.phoneNumber}</td>
-                        <td>{$userItem.createdTime}</td>
-                    </tr>
-                    {/foreach}
+                    <tbody id="userList">
+                    
                     </tbody>
                 </table>
             </div>
@@ -61,3 +51,22 @@
         <!-- /.box-footer -->
     </div>
 </section>
+
+<script id="btUserList" type="text/html">
+    <%
+    var userCount = userList.length;
+    for(var m = 0; m < userCount; m++){
+    var userItem = userList[m];
+    %>
+        <tr>
+            <td><%=userItem.id%></td>
+            <td><%=userItem.headImage%></td>
+            <td><%=userItem.userName%></td>
+            <td><%=userItem.realName%></td>
+            <td><%=userItem.email%></td>
+            <td><%=userItem.phoneNumber%></td>
+            <td><%=userItem.createdTime%></td>
+        </tr>
+    <% } %>
+</script>
+
