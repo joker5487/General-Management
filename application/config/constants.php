@@ -85,6 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('ADMIN_LAYOUT_PATH', APPPATH . 'views/templates/admin/layout.html');
+define('PUBLIC_IMG_RESOURCE_PATH', 'public/images/');
 
 define('PUBLIC_CSS_URL', APPPATH . 'public/stylesheet/');
 define('PUBLIC_JS_URL', APPPATH . 'public/javascript/');

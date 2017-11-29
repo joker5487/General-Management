@@ -22,7 +22,7 @@ class Admin_Controller extends MY_Controller{
         echo '</pre>';
     }
 
-    public function ajax_return($status = '200', $data = array(), $msg = ''){
+    public function ajax_return($status = '200', $msg = '', $data = array()){
         $return = [];
         $return['status'] = $status;
         $return['data'] = $data;
@@ -30,6 +30,10 @@ class Admin_Controller extends MY_Controller{
 
         echo json_encode($return);
         exit;
+    }
+
+    public function get_error_msg($key){
+        return $this->lang->line($key);
     }
 
 }

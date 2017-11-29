@@ -8,9 +8,10 @@
  */
 class UserModel extends MY_Model
 {
-    public function get_user_list(){
+    public function get_user_list($offset, $limit){
         $userList = $this->db->select('*')
                     ->from('user_admin')
+                    ->limit($limit, $offset)
                     ->get()->result_array();
 
         return $userList;
