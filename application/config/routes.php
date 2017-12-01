@@ -56,3 +56,4 @@ $route['translate_uri_dashes'] = FALSE;
 $route['admin/test/index'] = 'adminController/Admin_Test/index';
 $route['admin/user/list']  = 'adminController/User/user_list';
 $route['admin/user/list/data']  = 'adminController/User/get_user_list';
+$route['admin/user/opt/add']  = 'adminController/User/user_opt';

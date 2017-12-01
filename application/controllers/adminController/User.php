@@ -17,17 +17,10 @@ class User extends Admin_Controller
     }
 
     public function user_list(){
-//        phpinfo();exit;
-        $layout = [];
-        $layout['page'] = 'userList';
-        $layout['title'] = 'userList';
-        $layout['asideMenu'] = config_item('asideMenu');
-        $layout['base_url'] = base_url();
-        $this->assign('layout', $layout);
+        $page = 'userList';
+        $title = 'userList';
 
-        echo $this->get_error_msg('error_user_name');die;
-
-        $this->display(ADMIN_LAYOUT_PATH);
+        $this->page_display($page, $title);
     }
 
     public function get_user_list(){
@@ -38,7 +31,21 @@ class User extends Admin_Controller
 
         $userList = $this->userModel->get_user_list($offset, $limit);
 
-        $this->ajax_return('200', $userList, 'success get user list!');
+        $this->ajax_return('200', 'success get user list!', $userList);
+    }
+
+    public function user_opt(){
+        $page = 'userOpt';
+        $title = 'userAdd';
+
+        $this->page_display($page, $title);
+    }
+
+    public function get_user_info(){
+        $userId = $this->input->get('userId');
+        $userInfo = $this->userModel->get_user_info_by_id($userId);
+
+        $this->ajax_return('200', 'success get user info!', $userInfo);
     }
 
     public function user_add(){

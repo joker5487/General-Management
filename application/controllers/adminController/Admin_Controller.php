@@ -36,4 +36,15 @@ class Admin_Controller extends MY_Controller{
         return $this->lang->line($key);
     }
 
+    public function page_display($page, $title){
+        $layout = [];
+        $layout['page'] = $page;
+        $layout['title'] = $title;
+        $layout['asideMenu'] = config_item('asideMenu');
+        $layout['base_url'] = base_url();
+        $this->assign('layout', $layout);
+
+        $this->display(ADMIN_LAYOUT_PATH);
+    }
+
 }
