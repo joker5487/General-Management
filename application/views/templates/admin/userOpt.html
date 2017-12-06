@@ -1,5 +1,6 @@
 <!--引入CSS-->
 <link rel="stylesheet" type="text/css" href="{$layout.base_url}public/stylesheet/webuploader.css">
+<!--<link rel="stylesheet" type="text/css" href="{$layout.base_url}public/stylesheet/admin/admin.css">-->
 
 <section class="content">
     <div class="box box-info">
@@ -36,16 +37,16 @@
                         <label for="headImage" class="col-sm-2 control-label">headImage</label>
 
                         <div class="col-sm-10">
-                            <div id="uploader" class="wu-example">
-                                <div id="thelist" class="uploader-list"></div>
-                                <div class="btns">
-                                    <div id="picker" class="webuploader-container">
-                                        <div class="webuploader-pick">选择文件</div>
-                                        <div id="rt_rt_1c064flan96e1enu1gu71p7nj9d1" style="position: absolute; top: 0px; left: 0px; width: 88px; height: 34px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
-                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
-                                        </div>
+
+                            <div id="uploader-demo" class="wu-example">
+                                <div id="fileList" class="uploader-list">
+                                </div>
+                                <div id="filePicker" class="webuploader-container">
+                                    <div class="webuploader-pick">选择图片</div>
+                                    <div id="rt_rt_1c0jfmov01mm61pfs1v9g1hlkl6k4" style="position: absolute; top: 0px; left: 0px; width: 94px; height: 44px; overflow: hidden; bottom: auto; right: auto;">
+                                        <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*">
+                                        <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                     </div>
-                                    <button id="ctlBtn" class="btn btn-default">开始上传</button>
                                 </div>
                             </div>
 
