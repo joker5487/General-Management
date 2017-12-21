@@ -20,6 +20,7 @@ class Admin_Controller extends MY_Controller{
             print_r($data);
         }
         echo '</pre>';
+        die();
     }
 
     public function ajax_return($status = '200', $msg = '', $data = array()){

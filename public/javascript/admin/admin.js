@@ -115,8 +115,35 @@ Page.user_add = (function(){
         console.info('this is user add function !');
     };
 
+    var upload = function(){
+        $(".uploadBtn").click(function(){
+            var ajaxData = {};
+            ajaxData.url = "admin/upload";
+            ajaxData.data = new FormData($("#formInfo")[0]);
+
+            console.info(ajaxData);
+            //return false;
+
+            $.ajax({
+                url: ajaxData.url,
+                type: "post",
+                processData: false,
+                contentType: false,
+                data: ajaxData.data,
+                success:function(res){
+                    var res = JSON.parse(res);
+                    console.info(res);
+                },
+                error:function(){
+                    alert("ERROR");
+                }
+            });
+        });
+    }
+
     var bind = function(){
         test();
+        upload();
     };
 
     var init = function () {

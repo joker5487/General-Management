@@ -16,7 +16,11 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-            <form class="form-horizontal">
+            {php}
+            $attr = array('class'=>'form-horizontal','id'=>'formInfo','name'=>'formInfo');
+            echo form_open_multipart('admin/upload',$attr);
+            {/php}
+            <!--<form id="formInfo" action="" method="post" class="form-horizontal" enctype="multipart/form-data">-->
                 <div class="box-body" id="userInfo">
                     <div class="form-group">
                         <label for="userName" class="col-sm-2 control-label">userName</label>
@@ -45,7 +49,7 @@
                                         <div id="filePicker" class="webuploader-container">
                                             <div class="webuploader-pick">点击选择文件</div>
                                             <div id="rt_rt_1c1242khbrp61qv459k7791jp71" style="position: absolute; top: 0px; left: 448px; width: 168px; height: 44px; overflow: hidden; bottom: auto; right: auto;">
-                                                <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
+                                                <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" size="20">
                                                 <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                             </div>
                                         </div>
@@ -62,7 +66,7 @@
                                         <div id="filePicker2" class="webuploader-container">
                                             <div class="webuploader-pick">继续添加</div>
                                             <div id="rt_rt_1c1242khfm5v8c21f801hmb18t46" style="position: absolute; top: 0px; left: 0px; width: 1px; height: 1px; overflow: hidden;">
-                                            <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
+                                                <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" size="20">
                                                 <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                             </div>
                                         </div>

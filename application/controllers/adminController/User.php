@@ -14,6 +14,8 @@ class User extends Admin_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model('adminModel/userModel');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
     }
 
     public function user_list(){
@@ -38,6 +40,7 @@ class User extends Admin_Controller
         $page = 'userOpt';
         $title = 'userAdd';
 
+        log_message('info', 'test log message!');
         $this->page_display($page, $title);
     }
 
