@@ -143,7 +143,7 @@ Page.user_add = (function(){
 
     var bind = function(){
         test();
-        upload();
+        //upload();
     };
 
     var init = function () {

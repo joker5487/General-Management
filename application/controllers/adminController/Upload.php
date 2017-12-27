@@ -15,6 +15,8 @@ class Upload extends Admin_Controller {
     }
 
     public function uploadFile(){
+        log_message('info', json_encode($_FILES));
+        file_put_contents('application/logs/upload.log', json_encode($_FILES), FILE_APPEND);
         $this->set_upload_params();
 
         $up = 'file';
