@@ -141,9 +141,16 @@ Page.user_add = (function(){
         });
     }
 
+    var openUploadModal = function(){
+        $("#fileUpload").click(function(){
+            $('#fileUploadModal').modal()
+        });
+    }
+
     var bind = function(){
         test();
         //upload();
+        openUploadModal();
     };
 
     var init = function () {
