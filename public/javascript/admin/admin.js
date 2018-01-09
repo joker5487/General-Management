@@ -143,9 +143,31 @@ Page.user_add = (function(){
 
     var openUploadModal = function(){
         $("#fileUpload").click(function(){
-            $('#fileUploadModal').modal()
+            setModal();
+            $('#fileUploadModal').modal({
+                "show": true,
+                "backdrop": "static",
+                "keyboard": false
+            });
+            $('#fileUploadModal').on("shown.bs.modal", function(){
+                addJS();
+            });
+
         });
-    }
+    };
+
+    var setModal = function(){
+        $("#mmmmm").html("");
+        var modalHtml = '<div class="modal fade"tabindex="-1"role="dialog"data-target=".bs-example-modal-lg"id="fileUploadModal"><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button"class="close"data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">文件上传</h4></div><div class="modal-body"><div id="uploader"class="wu-example"><div class="queueList"><div id="dndArea"class="placeholder"><div id="filePicker"></div><p>或将照片拖到这里，单次最多可选300张</p></div></div><div class="statusBar"style="display:none;"><div class="progress"><span class="text">0%</span><span class="percentage"></span></div><div class="info"></div><div class="btns"><div id="filePicker2"></div><div class="uploadBtn">开始上传</div></div></div></div></div><div class="modal-footer"><button type="button"class="btn btn-default"data-dismiss="modal">Close</button></div></div></div></div>';
+        $("#mmmmm").append(modalHtml);
+    };
+
+    var addJS = function(){
+        var new_element=document.createElement("script");
+        new_element.setAttribute("type","text/javascript");
+        new_element.setAttribute("src","public/javascript/upload.js");
+        document.body.appendChild(new_element);
+    };
 
     var bind = function(){
         test();
