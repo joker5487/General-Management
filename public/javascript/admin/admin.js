@@ -186,7 +186,7 @@ Page.user_add = (function(){
             var imgHtml = "";
             var len = allSuccessFiles.length;
             for(var m = 0; m < len; m++){
-                imgHtml += "<img src='" + imgSourcePath + allSuccessFiles[m]["file_name"] + "' />";
+                imgHtml += "<img src='" + imgSourcePath + "test/" + allSuccessFiles[m]["file_name"] + "' />";
             }
             $("#imgList").append(imgHtml)
         });
