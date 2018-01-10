@@ -34,7 +34,7 @@ class Upload extends Admin_Controller {
     public function set_upload_params(){
         $config = array();
         $config['upload_path'] =  PUBLIC_IMG_RESOURCE_PATH . 'test/';
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['allowed_types'] = '*'; //'gif|jpg|png|jpeg';
         $config['max_size'] = 20480;
 
         $this->load->library('upload', $config);

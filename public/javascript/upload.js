@@ -71,10 +71,10 @@ jQuery(function() {
         paste: document.body,
 
         /*accept: {
-         title: 'Images',
-         extensions: 'gif,jpg,jpeg,bmp,png',
-         mimeTypes: 'image/!*'
-         },*/
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/!*'
+        },*/
 
         // swf文件路径
         swf: Host + 'public/javascript/Uploader.swf',
@@ -390,6 +390,13 @@ jQuery(function() {
         updateTotalProgress();
 
     };
+
+    uploader.onUploadSuccess = function (file, response) {
+        allSuccessFiles = [];
+        if(response.status == "200"){
+            allSuccessFiles.push(response.data);
+        }
+    }
 
     uploader.on('all', function (type) {
         var stats;
