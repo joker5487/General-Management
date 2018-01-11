@@ -34,4 +34,14 @@ class UserModel extends MY_Model
 
         return $res;
     }
+
+    public function get_user_info_by_id($userId){
+        $userInfo = $this->db->select("*")
+                             ->from("user_admin")
+                             ->where(["id" => intval($userId)])
+                             ->limit(1)
+                             ->get()->row_array();
+
+        return $userInfo;
+    }
 }

@@ -53,18 +53,16 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['admin/test/index'] = 'adminController/Admin_Test/index';
-$route['admin/user/list']  = 'adminController/User/user_list';
-$route['admin/user/list/data']  = 'adminController/User/get_user_list';
 
-$route['admin/user/opt/add']  = 'adminController/User/user_opt';
-$route['admin/user/opt/detail/(:num)']  = 'adminController/User/user_opt/$1';
-$route['admin/user/opt/edit/(:num)']  = 'adminController/User/user_opt/$1';
-$route['admin/user/info']  = 'adminController/User/get_user_info';
-
-$route['admin/upload']  = 'adminController/Upload/uploadFile';
-$route['admin/user/handle']  = 'adminController/user/user_handle';
+$route['admin/user/list']          = 'adminController/User/user_list';
+$route['admin/user/list/data']     = 'adminController/User/get_user_list';
+$route['admin/user/opt']           = 'adminController/User/user_opt';
+$route['admin/user/opt/(:num)']    = 'adminController/User/user_opt/$1';
+$route['admin/user/info']          = 'adminController/User/get_user_info';
+$route['admin/user/handle']        = 'adminController/user/user_handle';
+$route['admin/upload']             = 'adminController/Upload/uploadFile';
 
 
 // 暂未使用
+$route['admin/test/index'] = 'adminController/Admin_Test/index';
 $route['admin/files/get']  = 'adminController/User/get_files';

@@ -45,15 +45,15 @@ class User extends Admin_Controller
             $title = 'userDetail';
         }
 
-        log_message('info', 'test log message!');
+        $this->assign('userId', $userId);
         $this->page_display($page, $title);
     }
 
-    public function get_user_info($userId = null){
-//        $userId = $this->input->get('userId');
-//        $userInfo = $this->userModel->get_user_info_by_id($userId);
+    public function get_user_info(){
+        $userId = $this->input->post('userId');
+        $userInfo = $this->userModel->get_user_info_by_id($userId);
 
-        $this->ajax_return('200', 'success get user info!', $userId);
+        $this->ajax_return('200', 'success get user info!', $userInfo);
     }
 
     public function user_handle(){

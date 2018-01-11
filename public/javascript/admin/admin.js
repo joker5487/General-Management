@@ -231,15 +231,48 @@ Page.user_add = (function(){
     // 提交按钮方法
     var submit = function(){
         $("#btn_submit").click(function(){
+            // 获取所有输入信息
+            var userName = Public.trimStr($("#userName").val());
+            var realName = Public.trimStr($("#realName").val());
+            var headImage = Public.trimStr($("#filePath").val());
+            var email = Public.trimStr($("#email").val());
+            var phoneNumber = Public.trimStr($("#phoneNumber").val());
+            var password = Public.trimStr($("#password").val());
+            var passwordConf = Public.trimStr($("#passwordConf").val());
+            var roleId = Public.trimStr($("#userRole").val());
+            var status = Public.trimStr($('#userStatus input[name="optionsRadios"]:checked').val());
+
+            // 验证输入信息
+            if(userName == ""){
+                alert("用户名不能为空！");
+                return false;
+            }
+            if(realName == ""){
+                alert("真实姓名不能为空！");
+                return false;
+            }
+            if(email == ""){
+                alert("邮箱不能为空！");
+                return false;
+            }
+            if(password == ""){
+                alert("密码不能为空！");
+                return false;
+            }
+            if(password != passwordConf){
+                alert("两次输入的密码不一致！");
+                return false;
+            }
+
             var data = {};
-            data.userName = Public.trimStr($("#userName").val());
-            data.realName = Public.trimStr($("#realName").val());
-            data.headImage = Public.trimStr($("#filePath").val());
-            data.email = Public.trimStr($("#email").val());
-            data.phoneNumber = Public.trimStr($("#phoneNumber").val());
-            data.password = Public.trimStr($("#password").val());
-            data.roleId = Public.trimStr($("#userRole").val());
-            data.status = Public.trimStr($('#userStatus input[name="optionsRadios"]:checked').val());
+            data.userName = userName;
+            data.realName = realName;
+            data.headImage = headImage;
+            data.email = email;
+            data.phoneNumber = phoneNumber;
+            data.password = password;
+            data.roleId = roleId;
+            data.status = status;
 
             console.info(data);
 
@@ -255,11 +288,27 @@ Page.user_add = (function(){
         });
     };
 
+    // 获取用户信息数据，用于编辑和详情的回显
+    var getUserInfo = function(){
+        var userId = $("#userId").val();
+        console.info(userId);
+
+        var ajaxData = {};
+        ajaxData.url = Api_host + "user/info";
+        ajaxData.data = {"userId": userId};
+        Public.ajax(ajaxData).done(function(res){
+            console.info(res);
+        }).fail(function(error){
+            console.info(error);
+        });
+    };
+
     var bind = function(){
         test();
         //upload();
         openUploadModal();
         submit();
+        getUserInfo();
     };
 
     var init = function () {

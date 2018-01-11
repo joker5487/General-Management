@@ -20,8 +20,9 @@
             $attr = array('class'=>'form-horizontal','id'=>'formInfo','name'=>'formInfo');
             echo form_open_multipart('admin/upload',$attr);
             {/php}
-            <!--<form id="formInfo" action="" method="post" class="form-horizontal" enctype="multipart/form-data">-->
+            <!--<form id="formInfo" name="formInfo" action="" method="post" class="form-horizontal" enctype="multipart/form-data">-->
                 <div class="box-body" id="userInfo">
+                    <input type="hidden" id="userId" value="{$userId}">
                     <div class="form-group">
                         <label for="userName" class="col-sm-2 control-label">userName</label>
 
