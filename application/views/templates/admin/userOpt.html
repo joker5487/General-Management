@@ -6,7 +6,7 @@
 <section class="content">
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Latest Orders</h3>
+            <h3 class="box-title">{$layout.title}</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -43,27 +43,9 @@
 
                         <div class="col-sm-10">
 
+                            <div id="fileList"></div>
                             <button type="button" class="btn btn-primary" id="fileUpload">上传</button>
-
-                            <div id="imgList"></div>
-
-                            <!--<div id="uploader" class="wu-example">
-                                <div class="queueList">
-                                    <div id="dndArea" class="placeholder">
-                                        <div id="filePicker"></div>
-                                        <p>或将照片拖到这里，单次最多可选300张</p>
-                                    </div>
-                                </div>
-                                <div class="statusBar" style="display:none;">
-                                    <div class="progress">
-                                        <span class="text">0%</span>
-                                        <span class="percentage"></span>
-                                    </div><div class="info"></div>
-                                    <div class="btns">
-                                        <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
-                                    </div>
-                                </div>
-                            </div>-->
+                            <input type="hidden" id="filePath" value="" />
 
                         </div>
                     </div>
@@ -103,12 +85,12 @@
                         <label for="passwordConf" class="col-sm-2 control-label">userRole</label>
 
                         <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>option 1</option>
-                                <option>option 2</option>
-                                <option>option 3</option>
-                                <option>option 4</option>
-                                <option>option 5</option>
+                            <select class="form-control" id="userRole">
+                                <option value="1">option 1</option>
+                                <option value="2">option 2</option>
+                                <option value="3">option 3</option>
+                                <option value="4">option 4</option>
+                                <option value="5">option 5</option>
                             </select>
                         </div>
                     </div>
@@ -116,14 +98,14 @@
                     <div class="form-group">
                         <label for="userStatus" class="col-sm-2 control-label">userStatus</label>
 
-                        <div class="col-sm-10 radio">
+                        <div class="col-sm-10 radio" id="userStatus">
                             <label>
-                                <input type="radio" name="optionsRadios" id="" value="option1" checked="">
+                                <input type="radio" name="optionsRadios" value="1" checked="">
                                 有效
                             </label>
 
                             <label>
-                                <input type="radio" name="optionsRadios" id="" value="option2">
+                                <input type="radio" name="optionsRadios" value="0">
                                 无效
                             </label>
                         </div>
@@ -134,8 +116,8 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <button type="button" class="" id="user_submit">Submit</button>
-            <button type="button" class="" id="user_cancel">Cancel</button>
+            <button type="button" class="btn btn-default btn-primary" id="btn_submit">提交</button>
+            <button type="button" class="btn btn-default" id="btn_cancel">返回</button>
         </div>
         <!-- /.box-footer -->
     </div>

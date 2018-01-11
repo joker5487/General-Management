@@ -1,4 +1,35 @@
+/* box */
+.box-footer{
+    text-align: center;
+}
+
+.box-footer button{
+    margin: 0 10px;
+}
+
+.box-footer .btn-primary{
+    color: #FFFFFF;
+}
+
 /* file upload modal */
 .modal .modal-dialog{
     width: 70%;
+}
+
+/* user upload */
+#fileList{
+    width: 120px;
+    height: 120px;
+    border: 1px solid #ccc;
+    float: left;
+}
+
+#fileUpload{
+    margin-left: 10px;
+    margin-top: 86px;
+}
+
+#fileList img{
+    width: 120px;
+    height: 120px;
 }
