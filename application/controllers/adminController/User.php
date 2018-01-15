@@ -14,8 +14,8 @@ class User extends Admin_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model('adminModel/userModel');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+//        $this->load->helper('form');
+//        $this->load->library('form_validation');
     }
 
     public function user_list(){
@@ -104,6 +104,8 @@ class User extends Admin_Controller
         $this->ajax_return('201', $errorMsg);
     }
 
+
+    /* ========================================== 以下方法暂未使用 ========================================== */
     // 暂时未使用
     public function get_files(){
         $folderPath = PUBLIC_IMG_RESOURCE_PATH . 'test/';

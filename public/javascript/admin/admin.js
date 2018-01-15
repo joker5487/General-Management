@@ -18,11 +18,56 @@ var imgPublicPath = "/public/images/"; // 图片资源公共路径
 // 系统JS访问路由设置
 var Route = {
     user_list: 'user/list',
-    user_add: 'user/opt/add'
+    user_opt: 'user/opt'
 };
 
-// ajax统一请求方法
-Public.ajax = function(ajaxData){
+
+
+/* ========================================== 以下是页面JS方法部分 ========================================== */
+
+
+
+/*
+ * ajax统一请求方法(暂时未使用)
+ * ajaxData object ajax请求需要的参数 格式：{url:"xxxxxxx", data:{"userId": 1, "userName": "张三"}}
+ * */
+Public.ajax = function (ajaxData) {
+    var url = ajaxData["url"];
+    var type = 'post';
+    if(ajaxData.hasOwnProperty('type')){
+        type = ajaxData["type"];
+    }
+
+    var data = ajaxData["data"];
+    var returnData = {};
+    $.ajax({
+        url: url,
+        type: type,
+        data: data,
+        async: false,
+        success: function(res){
+            console.info(res);
+            if(res != ""){
+                var res = JSON.parse(res);
+                if(res.status = "200" && res.data != null){
+                    returnData = res.data;
+                }
+            }
+        },
+        error: function(res){
+            returnData = res;
+        }
+    });
+
+    console.info(returnData);
+    return returnData;
+};
+
+/*
+ * ajax统一请求方法(暂时未使用)
+ * ajaxData object ajax请求需要的参数 格式：{url:"xxxxxxx", data:{"userId": 1, "userName": "张三"}}
+ * */
+Public.ajax_t = function(ajaxData){
     var url = ajaxData["url"];
     var type = 'post';
     if(ajaxData.hasOwnProperty('type')){
@@ -43,7 +88,11 @@ Public.ajax = function(ajaxData){
     return deferred.promise();
 };
 
-// 去除字符串空格
+/*
+ * 去除字符串空格
+ * str string 需要进行去除空格的字符串
+ * type string 空格去除类型
+ * */
 Public.trimStr = function(str, type){
     // 默认: 去除首尾空格
     var reg = /^\s+|\s+$/g;
@@ -66,40 +115,26 @@ Public.trimStr = function(str, type){
     return str.replace(reg, "");
 };
 
-Public.ajax_t = function (ajaxData) {
-    var url = ajaxData["url"];
-    var type = 'post';
-    if(ajaxData.hasOwnProperty('type')){
-        type = ajaxData["type"];
-    }
+/*
+ * 界面跳转方法
+ * url string 需要跳转的界面路径
+ * type string 值为"get"或 "post" 请求跳转类型
+ * parames object 页面跳转请求需要的参数
+ * */
+Public.redirect = function(url, type, parames){
 
-    console.info("===" + type);
-    var data = ajaxData["data"];
-    var returnData = {};
-    $.ajax({
-        url: url,
-        type: type,
-        data: data,
-        async: false,
-        success: function(res){
-            if(res != "" && res != null){
-                returnData = JSON.parse(res);
-            }
-        },
-        error: function(res){
-            returnData = res;
-        }
-    });
+}
 
-    return returnData;
-};
+
+
+/* ========================================== 以下是页面公共JS部分 ========================================== */
+
 
 
 $(function(){
     var url = window.location.href;
 
     for(var key in Route){
-        console.info(key);
         if (url.match(Route[key]) != null) {
             Page[key].init();
             break;
@@ -108,6 +143,12 @@ $(function(){
         }
     }
 });
+
+
+
+/* ========================================== 以下是页面JS部分 ========================================== */
+
+
 
 Page.user_list = (function(){
     var test = function(){
@@ -119,13 +160,9 @@ Page.user_list = (function(){
         ajaxData.url = "admin/user/list/data";
         ajaxData.data = {};
 
-        Public.ajax(ajaxData).done(function(res){
-            var userList = JSON.parse(res);
-            console.info(userList);
-            $("#userList").html(bt("btUserList", {userList: userList.data}));
-        }).fail(function(res){
-            console.info(res);
-        });
+        var userList = Public.ajax(ajaxData);
+        console.info(userList);
+        $("#userList").html(bt("btUserList", {userList: userList}));
     }
 
     var bind = function(){
@@ -142,26 +179,41 @@ Page.user_list = (function(){
     }
 })();
 
-Page.user_add = (function(){
+Page.user_opt = (function(){
     var test = function(){
-        console.info('this is user add function !');
-        var str = "   a as asd  a  d   ";
-        console.info(str, str.length);
-        var newStr = Public.trimStr(str);
-        console.info(newStr, newStr.length);
+        console.info('this is user opt function !');
     };
 
+    // 获取用户信息数据，用于编辑和详情的回显
+    var getUserInfo = function(){
+        var userInfo = {};
+        var userId = $("#userId").val();
+
+        var ajaxData = {};
+        ajaxData.url = Api_host + "user/info";
+        ajaxData.data = {"userId": userId};
+
+        userInfo = Public.ajax(ajaxData);
+
+        return userInfo;
+    };
+
+    // 使用百度模版填充数据表单
+    var setHtml = function(){
+        var userInfo = getUserInfo();
+
+        var html = bt("btUserDetail", {"data": userInfo});
+        $("#userDetail").html(html);
+    };
+
+    // 暂时未使用
     var getFiles = function(){
         var ajaxData = {};
         ajaxData.url = "admin/files/get";
         ajaxData.data = {};
 
-        Public.ajax(ajaxData).done(function(res){
-            var fileList = JSON.parse(res);
-            console.info(fileList);
-        }).fail(function(res){
-            console.info(res);
-        });
+        var fileList = Public.ajax(ajaxData);
+        console.info(fileList);
     };
 
     // 打开上传modal弹窗
@@ -223,6 +275,7 @@ Page.user_add = (function(){
                     }
                 }
             }
+            $("#fileList").html("");
             $("#fileList").append(fileHtml);
             $("#filePath").val(filePath);
         });
@@ -280,35 +333,17 @@ Page.user_add = (function(){
             ajaxData.url = Api_host + "user/handle";
             ajaxData.data = data;
 
-            Public.ajax(ajaxData).done(function(res){
-                console.info(res);
-            }).fail(function(){
-
-            });
+            var userInfo = Public.ajax(ajaxData);
         });
     };
 
-    // 获取用户信息数据，用于编辑和详情的回显
-    var getUserInfo = function(){
-        var userId = $("#userId").val();
-        console.info(userId);
 
-        var ajaxData = {};
-        ajaxData.url = Api_host + "user/info";
-        ajaxData.data = {"userId": userId};
-        Public.ajax(ajaxData).done(function(res){
-            console.info(res);
-        }).fail(function(error){
-            console.info(error);
-        });
-    };
 
     var bind = function(){
         test();
-        //upload();
+        setHtml();
         openUploadModal();
         submit();
-        getUserInfo();
     };
 
     var init = function () {
