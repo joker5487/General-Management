@@ -115,16 +115,78 @@ Public.trimStr = function(str, type){
     return str.replace(reg, "");
 };
 
+
+
+/* ========================================== 以下是页面JS链式方法部分 ========================================== */
+
+
+
 /*
- * 界面跳转方法
- * url string 需要跳转的界面路径
- * type string 值为"get"或 "post" 请求跳转类型
- * parames object 页面跳转请求需要的参数
+ * 路径链式方法 此方法提供给Api接口路径的格式化链式操作
+ * setUrl fn 初始化Api路径的方法。如果没有路径传入，路径为初始路径；如果有路径传入，则拼接成新的路径。
+ * setParam fn 格式化参数的方法。当一个路径中需要有动态参数的时候使用，路径中参数格式【{0},{1}】，方法中传入的参数是路径中对应参数个数的一维数组。
+ * getPath 返回新路径的方法。一般用在链式操作最后。返回链式操作的最终路径
  * */
-Public.redirect = function(url, type, parames){
+function path () {};
+path.prototype = {//扩展它的prototype
+    setUrl: function (path) {
+        var apiHost = Public.trimStr(Api_host);
+        var newPath = apiHost;
 
-}
+        var ending = apiHost.substr(-1, 1);
+        if(ending !== "/"){
+            apiHost += "/";
+        }
+        if(path){
+            var starting = path.substr(0, 1);
+            if(starting === "/"){
+                newPath = apiHost + path.substr(1);
+            }else{
+                newPath = apiHost + path;
+            }
+        }
+        console.info("set path");
+        this.path = newPath;
+        return this;
+    },
+    setParam: function(paramArr){
+        var newPath = this.path;
+        if(paramArr){
+            var len = paramArr.length;
+            for (var i = 0; i < len; i++) {
+                var regexp = new RegExp('\\{' + i + '\\}', 'gi');
+                newPath = newPath.replace(regexp, paramArr[i])
+            }
+        }
+        console.info("set param");
+        this.path = newPath;
+        return this;
+    },
+    getPath:function (){
+        return this.path;
+    }
+};
 
+
+// 此方法为测试用
+function test () {};
+test.prototype = {
+    setNum: function (num) {
+        this.num = num;
+
+        return  this;
+    },
+    getNum: function () {
+        return this.num;
+    }
+};
+
+//工厂函数
+Public.Chain = function(chain) {
+    chain = chain.toLowerCase();
+    //return new chain;
+    return new window[chain];
+};
 
 
 /* ========================================== 以下是页面公共JS部分 ========================================== */
@@ -182,6 +244,10 @@ Page.user_list = (function(){
 Page.user_opt = (function(){
     var test = function(){
         console.info('this is user opt function !');
+        //var str = fnString.path();
+        var path = Public.Chain("path").setUrl("/qweq/qweqw/eqw/e/qwe/qwe/qw/").getPath();
+        var num = Public.Chain("TesT").setNum(12345).getNum();
+        console.log(num);
     };
 
     // 获取用户信息数据，用于编辑和详情的回显
