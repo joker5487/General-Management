@@ -50,10 +50,10 @@
                 <div class="col-sm-10">
 
                     <div id="fileList">
-                        <img src="<%=data.headImage%>" onerror="javascript:this.src='./public/images/default-user.jpg'" alt="">
+                        <img src=".<%=data.headImage%>" onerror="javascript:this.src='./public/images/default-user.jpg'" alt="">
                     </div>
                     <button type="button" class="btn btn-primary" id="fileUpload">上传</button>
-                    <input type="hidden" id="filePath" value="" />
+                    <input type="hidden" id="filePath" value="<%=data.headImage%>" />
 
                 </div>
             </div>

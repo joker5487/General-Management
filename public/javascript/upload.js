@@ -396,7 +396,7 @@ jQuery(function() {
         if(response.status == "200"){
             allSuccessFiles.push(response.data);
         }
-    }
+    };
 
     uploader.on('all', function (type) {
         var stats;

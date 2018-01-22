@@ -46,20 +46,21 @@ Public.ajax = function (ajaxData) {
         data: data,
         async: false,
         success: function(res){
-            console.info(res);
+            //console.info(res);
             if(res != ""){
                 var res = JSON.parse(res);
-                if(res.status = "200" && res.data != null){
-                    returnData = res.data;
+                if(res.status == "200" && res.data != null){
+                    returnData = res;
                 }
             }
         },
         error: function(res){
+            res.status = "-1";
             returnData = res;
         }
     });
 
-    console.info(returnData);
+    //console.info(returnData);
     return returnData;
 };
 
@@ -113,6 +114,23 @@ Public.trimStr = function(str, type){
         reg = /(\s*$)/g;
     }
     return str.replace(reg, "");
+};
+
+/*
+ * 页面跳转方法
+ * path string 需要跳转的页面路径
+ * target string 标识 跳转式样（新开标签或者本页面跳转）
+ * */
+Public.jump = function(path, target){
+    target = target ? "open" : "";
+    path = path ? path : "";
+    if(path) {
+        if (target) {
+            window.open(path);
+        } else {
+            window.location.href = path;
+        }
+    }
 };
 
 
@@ -223,8 +241,8 @@ Page.user_list = (function(){
         ajaxData.data = {};
 
         var userList = Public.ajax(ajaxData);
-        console.info(userList);
-        $("#userList").html(bt("btUserList", {userList: userList}));
+        //console.info(userList);
+        $("#userList").html(bt("btUserList", {userList: userList.data}));
     }
 
     var bind = function(){
@@ -268,7 +286,7 @@ Page.user_opt = (function(){
     var setHtml = function(){
         var userInfo = getUserInfo();
 
-        var html = bt("btUserDetail", {"data": userInfo});
+        var html = bt("btUserDetail", {"data": userInfo.data});
         $("#userDetail").html(html);
     };
 
@@ -279,7 +297,7 @@ Page.user_opt = (function(){
         ajaxData.data = {};
 
         var fileList = Public.ajax(ajaxData);
-        console.info(fileList);
+        //console.info(fileList);
     };
 
     // 打开上传modal弹窗
@@ -302,6 +320,8 @@ Page.user_opt = (function(){
     var setModal = function(){
         $("#mmmmm").html("");
         var modalHtml = '<div class="modal fade"tabindex="-1"role="dialog"data-target=".bs-example-modal-lg"id="fileUploadModal"><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button"class="close"data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">文件上传</h4></div><div class="modal-body"><div id="uploader"class="wu-example"><div class="queueList"><div id="dndArea"class="placeholder"><div id="filePicker"></div><p>或将照片拖到这里，单次最多可选300张</p></div></div><div class="statusBar"style="display:none;"><div class="progress"><span class="text">0%</span><span class="percentage"></span></div><div class="info"></div><div class="btns"><div id="filePicker2"></div><div class="uploadBtn">开始上传</div></div></div></div></div><div class="modal-footer"><button type="button"class="btn btn-default"data-dismiss="modal">Close</button></div></div></div></div>';
+
+        //var modalHtml = $("#fileUploadModal").html();
         $("#mmmmm").append(modalHtml);
 
         // 文件上传成功后,绑定页面回显事件
@@ -319,7 +339,7 @@ Page.user_opt = (function(){
     // 上传完成后，页面的上传文件回显
     var showFiles = function(){
         $('#fileUploadModal').on("hide.bs.modal", function(){
-            console.info(allSuccessFiles);
+            //console.info(allSuccessFiles);
             var fileHtml = "";
             var filePath = "";
             var len = allSuccessFiles.length;
@@ -340,10 +360,11 @@ Page.user_opt = (function(){
                         fileHtml += '<img src="'+imgSourcePath+'fileType/'+fileExt+'.png'+'" onerror="javascript:this.src='+imgSourcePath+'fileType/ini.png'+'" />';
                     }
                 }
+
+                $("#fileList").html("");
+                $("#fileList").append(fileHtml);
+                $("#filePath").val(filePath);
             }
-            $("#fileList").html("");
-            $("#fileList").append(fileHtml);
-            $("#filePath").val(filePath);
         });
     };
 
@@ -351,6 +372,7 @@ Page.user_opt = (function(){
     var submit = function(){
         $("#btn_submit").click(function(){
             // 获取所有输入信息
+            var userId = Public.trimStr($("#userId").val());
             var userName = Public.trimStr($("#userName").val());
             var realName = Public.trimStr($("#realName").val());
             var headImage = Public.trimStr($("#filePath").val());
@@ -384,6 +406,7 @@ Page.user_opt = (function(){
             }
 
             var data = {};
+            data.userId = userId;
             data.userName = userName;
             data.realName = realName;
             data.headImage = headImage;
@@ -393,13 +416,33 @@ Page.user_opt = (function(){
             data.roleId = roleId;
             data.status = status;
 
-            console.info(data);
+            //console.info(data);
 
             var ajaxData = {};
-            ajaxData.url = Api_host + "user/handle";
+            ajaxData.url = Public.Chain("path").setUrl("user/handle").getPath(); // Api_host + "user/handle";
             ajaxData.data = data;
 
             var userInfo = Public.ajax(ajaxData);
+
+            var msg = "用户添加失败";
+            if(userId){
+                var msg = "用户修改失败";
+            }
+            if(userInfo["status"] == "-1"){
+                alert("errorCode: -1 " + msg);
+            }else if(userInfo["status"] != "200"){
+                alert(msg);
+            }else{
+                var url = Public.Chain("path").setUrl("user/list").getPath();
+                Public.jump(url);
+            }
+        });
+    };
+
+    // 返回按钮方法
+    var cancel = function(){
+        $("#btn_cancel").click(function(){
+            window.history.back(-1);
         });
     };
 
@@ -410,6 +453,7 @@ Page.user_opt = (function(){
         setHtml();
         openUploadModal();
         submit();
+        cancel();
     };
 
     var init = function () {

@@ -51,12 +51,17 @@ class User extends Admin_Controller
 
     public function get_user_info(){
         $userId = $this->input->post('userId');
-        $userInfo = $this->userModel->get_user_info_by_id($userId);
+
+        $userInfo = [];
+        if($userId){
+            $userInfo = $this->userModel->get_user_info_by_id($userId);
+        }
 
         $this->ajax_return('200', 'success get user info!', $userInfo);
     }
 
     public function user_handle(){
+        $userId = $this->input->post('userId');
         $userName = $this->input->post('userName');
         $realName = $this->input->post('realName');
         $headImage = $this->input->post('headImage');
@@ -93,10 +98,14 @@ class User extends Admin_Controller
         $userdata['password'] = $password;
         $userdata['roleId'] = $roleId;
         $userdata['status'] = $status;
-        $userdata['createdTime'] = time();
         $userdata['updatedTime'] = time();
 
-        $res = $this->userModel->insert_user($userdata);
+        if($userId){ // update
+            $res = $this->userModel->update_user($userdata, $userId);
+        }else{ // insert
+            $userdata['createdTime'] = time();
+            $res = $this->userModel->insert_user($userdata);
+        }
         if($res){
             $this->ajax_return('200', 'User Add Success!', $userdata);
         }
