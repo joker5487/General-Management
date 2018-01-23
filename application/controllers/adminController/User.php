@@ -31,9 +31,21 @@ class User extends Admin_Controller
         $limit = 20;
         $offset = ($pageNum - 1) * $limit;
 
+        $nextFlg = false;
         $userList = $this->userModel->get_user_list($offset, $limit);
+        $count = count($userList);
+        if($count == $limit){
+            $offsetNext = $offset + $limit;
+            $userListNext = $this->userModel->get_user_list($offsetNext, $limit);
+            if(count($userListNext) > 0){
+                $nextFlg = true;
+            }
+        }
 
-        $this->ajax_return('200', 'success get user list!', $userList);
+        $data['userList'] = $userList;
+        $data['nextFlg'] = $nextFlg;
+
+        $this->ajax_return('200', 'success get user list!', $data);
     }
 
     public function user_opt($userId = null){

@@ -14,6 +14,7 @@ var Public = {};
 var imgSourcePath = Host + "public/images/"; // 图片资源公共网络路径
 var allSuccessFiles = []; // 所有上传成功的文件，用作页面文件回显，每次使用前清空数据
 var imgPublicPath = "/public/images/"; // 图片资源公共路径
+var paginationNum = 20; // 分页参数，每页展示的数据记录数，应该和后台分页查询的limit值保持一致
 
 // 系统JS访问路由设置
 var Route = {
@@ -235,19 +236,96 @@ Page.user_list = (function(){
         console.info('this is user list function !');
     };
 
+    // 获取用户列表
     var get_user_list = function(){
+        var pageNum = Public.trimStr($("#currentPage").val());
+        pageNum = pageNum ? pageNum : 1;
+
         var ajaxData = {};
-        ajaxData.url = "admin/user/list/data";
-        ajaxData.data = {};
+        ajaxData.url = Public.Chain("path").setUrl("user/list/data").getPath();
+        ajaxData.data = {"pageNum": pageNum};
 
         var userList = Public.ajax(ajaxData);
-        //console.info(userList);
-        $("#userList").html(bt("btUserList", {userList: userList.data}));
-    }
+        return userList;
+    };
+
+    // 渲染页面数据
+    var setHtml = function(){
+        var data = get_user_list();
+        var userList = data.data.userList;
+        var nextFlg = data.data.nextFlg;
+        $("#userList").html(bt("btUserList", {userList: userList}));
+
+        // 获取当前页码
+        var pageNum = Public.trimStr($("#currentPage").val());
+        if(pageNum < 1){
+            pageNum = 1;
+        }
+
+        // 根据返回数据 控制 分页按钮层 是否显示
+        if(!nextFlg && userList.length <= paginationNum && pageNum == 1){
+            $("#pagination").css({"display": "none"});
+        }
+
+        // 控制 上一页 按钮的点击状态
+        if(pageNum == 1){
+            $("#btn_prev").attr("disabled", true);
+        }else{
+            $("#btn_prev").attr("disabled", false);
+        }
+
+        // 根据返回数据 控制 下一页 按钮的点击状态
+        if(nextFlg){
+            $("#btn_next").attr("disabled", false);
+        }else{
+            $("#btn_next").attr("disabled", true);
+        }
+
+        // 用户列表项点击事件
+        item_click();
+    };
+
+    // 上一页按钮事件
+    var btn_prev = function(){
+        $("#btn_prev").click(function(){
+            var pageNum = parseInt(Public.trimStr($("#currentPage").val())) - 1;
+            if(pageNum < 1){
+                pageNum = 1;
+            }
+            $("#currentPage").val(pageNum);
+
+            setHtml();
+        });
+    };
+
+    // 下一页按钮事件
+    var btn_next = function(){
+        $("#btn_next").click(function(){
+            var pageNum = parseInt(Public.trimStr($("#currentPage").val())) + 1;
+            if(pageNum < 1){
+                pageNum = 1;
+            }
+            $("#currentPage").val(pageNum);
+
+            setHtml();
+        });
+    };
+
+    // 用户列表项点击事件
+    var item_click = function(){
+        $("#userList tr").click(function(){
+            var userId = Public.trimStr($(this).attr("data-userId"));
+            var paramArr = [userId];
+            var url = Public.Chain("path").setUrl("user/opt/{0}").setParam(paramArr).getPath();
+            Public.jump(url);
+        });
+    };
 
     var bind = function(){
         test();
-        get_user_list();
+        setHtml();
+        btn_prev();
+        btn_next();
     };
 
     var init = function () {
@@ -297,7 +375,6 @@ Page.user_opt = (function(){
         ajaxData.data = {};
 
         var fileList = Public.ajax(ajaxData);
-        //console.info(fileList);
     };
 
     // 打开上传modal弹窗
@@ -445,8 +522,6 @@ Page.user_opt = (function(){
             window.history.back(-1);
         });
     };
-
-
 
     var bind = function(){
         test();

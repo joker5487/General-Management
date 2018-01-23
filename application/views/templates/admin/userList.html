@@ -32,9 +32,10 @@
             <!-- /.table-responsive -->
         </div>
         <!-- /.box-body -->
-        <div class="box-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-            <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+        <div class="box-footer fixed-center" id="pagination">
+            <button id="btn_prev" class="btn btn-default btn-primary">上一页</button>
+            <input type="hidden" id="currentPage" value="1">
+            <button id="btn_next" class="btn btn-default btn-primary">下一页</button>
         </div>
         <!-- /.box-footer -->
     </div>
@@ -46,7 +47,7 @@
     for(var m = 0; m < userCount; m++){
     var userItem = userList[m];
     %>
-        <tr>
+        <tr data-userId="<%=userItem.id%>">
             <td><%=userItem.id%></td>
             <td>
                 <img src=".<%=userItem.headImage%>" width="30" height="30" alt="">

@@ -1,3 +1,8 @@
+/* some public class css*/
+.fixed-center {
+    text-align: center;
+}
+
 /* box */
 .box-footer{
     text-align: center;
@@ -32,4 +37,9 @@
 #fileList img{
     width: 120px;
     height: 120px;
+}
+
+/* user list */
+#userList tr{
+    cursor: pointer;
 }
