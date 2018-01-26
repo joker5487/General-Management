@@ -197,6 +197,130 @@
 
     2、安装 boost_1_59_0 (必须是该版本)
     2-1、下载 boost_1_59_0
+    # cd /usr/local/src
+    # wget https://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
+
+    2-2、解压
+    # tar -zxvf boost_1_59_0.tar.gz
+
+    2-3、配置
+    # cd boost_1_59_0
+    # ./bootstrap.sh
+
+    2-4、编译
+    # ./b2
+
+    2-5、安装
+    # ./b2 install
+
+    3、安装 cmake （最新版本）
+    3-1、下载 cmake
+    # cd /usr/local/src
+    # wget https://cmake.org/files/v3.8/cmake-3.8.0.tar.gz
+
+    3-2、解压
+    # tar -xzvf cmake-3.8.0.tar.gz
+
+    3-3、编译安装
+    # cd cmake-3.8.0
+    # ./bootstrap
+    # gmake
+    # gmake install
+
+    4、安装 Mysql 5.7.18
+    4-1、添加mysql用户和所属组
+    # /usr/sbin/groupadd mysql
+    # /usr/sbin/useradd -g mysql mysql
+
+    4-2、创建mysql安装目录和数据目录
+    # mkdir /usr/local/mysql
+    # mkdir /usr/local/mysql/data
+
+    4-3、修改mysql目录所有者
+    # chown -R mysql:mysql /usr/local/mysql
+
+    4-4、下载mysql源码包
+    # cd /usr/local/src
+    # wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.18.tar.gz
+
+    4-5、解压
+    # tar -xzvf mysql-5.7.18.tar.gz
+
+    4-6、cmake编译配置
+    # cd mysql-5.7.18
+    # cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+      -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock \
+      -DMYSQL_DATADIR=/usr/local/mysql/mydata \
+      -DSYSCONFDIR=/etc \
+      -DEXTRA_CHARSETS=all \
+      -DDEFAULT_CHARSET=utf8 \
+      -DDEFAULT_COLLATION=utf8_general_ci \
+      -DWITH_MYISAM_STORAGE_ENGINE=1 \
+      -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+      -DWITH_MEMORY_STORAGE_ENGINE=1 \
+      -DWITH_READLINE=1 \
+      -DMYSQL_TCP_PORT=3306 \
+      -DENABLED_LOCAL_INFILE=1 \
+      -DWITH_PARTITION_STORAGE_ENGINE=1 \
+      -DWITH_SSL=yes \
+      -DWITH_BOOST=/usr/local/src/boost_1_59_0 \
+      -DMYSQL_USER=mysql
+
+    4-7、编译安装
+    # make && make install
+
+    4-8、初始化数据库【注意：运行后最后一句[note] 生成了一个mysql默认密码，复制到一个地方，保存下来。】
+    # cd /usr/local/mysql/bin
+    # ./mysqld --initialize --user=mysql --datadir=/usr/local/mysql/data/ --basedir=/usr/local/mysql --socket=/usr/local/mysql/mysql.sock
+
+    4-9、添加mysql服务
+    # cd /usr/local/src/mysql-5.7.18
+    # cd support-files
+    # cp -a mysql.server /etc/init.d/mysql
+
+    4-10、编辑mysql配置文件
+    # cd /etc
+    # sudo vi my.cnf
+    【修改配置文件中的
+    1)、datadir=/usr/local/mysql/data
+    2)、socket=/usr/local/mysql/mysql.sock
+    】
+
+    4-11、创建文件夹并给定用户和权限
+    # mkdir /var/lib/mysql
+    # chown mysql:mysql /var/lib/mysql
+    # chmod 777 /var/lib/mysql
+
+    4-12、启动mysql
+    # service mysql start
+
+    4-13、设置开机启动
+    # chkconfig mysql on
+
+    4-14、添加环境变量
+    # sudo vi /etc/profile
+    在文件末尾添加一行： export PATH=$PATH:/usr/local/mysql/bin
+    # :wq
+    # source /etc/profile   (使修改的profile文件生效)
+
+    4-15、登录mysql
+    # mysql -u root -p
+    【注意：输入 4-8 中保存的密码后 回车】
+
+    4-16、修改root密码
+    # SET PASSWORD = PASSWORD('yourpassword');
+
+    4-17、刷新mysql的系统权限相关表
+    # flush privileges;
+
+    4-18、退出，并用新密码重新登录即可
+    # quit;
+
+
+    三、安装php
+
+
+
 
 </div>
 
