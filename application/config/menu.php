@@ -10,9 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['asideMenu'] = array(
     array(
-        'menu' => 'Menu0',
+        'menu' => 'User',
         'icon' => 'dashboard',
-        'path' => '',
+        'path' => 'admin/user/list',
         'subMenu' => array()
     ),
     array(
@@ -21,9 +21,9 @@ $config['asideMenu'] = array(
         'path' => '',
         'subMenu' => array(
             array(
-                'menu' => 'Menu1-1',
+                'menu' => 'Menu1-user',
                 'icon' => '',
-                'path' => '',
+                'path' => 'admin/user/list',
             ),
             array(
                 'menu' => 'Menu1-2',

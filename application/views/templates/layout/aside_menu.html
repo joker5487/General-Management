@@ -2,37 +2,39 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
-        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
 
-            {if $layout.asideMenu}
-                {foreach $layout.asideMenu as $menuItem}
-                    <li class="active treeview">
-                        {if $menuItem.path neq ""}
-                        <a href="{$menuItem.path}" >
-                        {else}
-                        <a hre="#">
-                        {/if}
-                            <i class="fa fa-{$menuItem.icon}"></i> <span>{$menuItem.menu}</span>
-                            {if $menuItem.subMenu}
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            {/if}
-                        </a>
+            <{if $layout.asideMenu}>
+                <{foreach $layout.asideMenu as $menuItem}>
+                    <{if $menuItem.subMenu neq null}>
+                        <li class="treeview">
+                            <a href="javascript:;">
+                                <i class="fa fa-<{$menuItem.icon}>"></i>
+                                <span><{$menuItem.menu}></span>
+                                <{if $menuItem.subMenu != null}>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                <{/if}>
+                            </a>
 
-                        {if $menuItem.subMenu}
-                            {foreach $menuItem.subMenu as $subMenuItem}
-                                <ul class="treeview-menu">
-                                    <li class="active"><a href="{$subMenuItem.path}"><i class="fa fa-circle-o"></i> {$subMenuItem.menu}</a></li>
-                                </ul>
-                            {/foreach}
-                        {/if}
-                    </li>
-                {/foreach}
-            {/if}
+                            <ul class="treeview-menu">
+                                <{foreach $menuItem.subMenu as $subMenuItem}>
+                                <li><a href="<{$subMenuItem.path}>"><i class="fa fa-circle-o"></i> <{$subMenuItem.menu}></a></li>
+                                <{/foreach}>
+                            </ul>
+                        </li>
+                    <{else}>
+                        <li>
+                            <a href="<{$menuItem.path}>">
+                                <i class="fa fa-<{$menuItem.icon}>"></i>
+                                <span><{$menuItem.menu}></span>
+                            </a>
+                        </li>
+                    <{/if}>
+                <{/foreach}>
+            <{/if}>
         </ul>
     </section>
     <!-- /.sidebar -->

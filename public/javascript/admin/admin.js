@@ -321,9 +321,18 @@ Page.user_list = (function(){
         });
     };
 
+    // 添加用户按钮事件
+    var btn_user_add = function(){
+        $("#btn_user_add").click(function(){
+            var url = Public.Chain("path").setUrl("user/opt").getPath();
+            Public.jump(url);
+        });
+    };
+
     var bind = function(){
         test();
         setHtml();
+        btn_user_add();
         btn_prev();
         btn_next();
     };
