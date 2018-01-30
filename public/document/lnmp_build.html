@@ -1,351 +1,701 @@
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <title>LNMP Build</title>
-    <style id="system" type="text/css">*{margin:0;padding:0;}body {	font:13.34px helvetica,arial,freesans,clean,sans-serif;	color:black;	line-height:1.4em;	background-color: #F8F8F8;	padding: 0.7em;}p {	margin:1em 0;	line-height:1.5em;}table {	font-size:inherit;	font:100%;	margin:1em;}table th{border-bottom:1px solid #bbb;padding:.2em 1em;}table td{border-bottom:1px solid #ddd;padding:.2em 1em;}input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}select,option{padding:0 .25em;}optgroup{margin-top:.5em;}pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}pre {	margin:1em 0;	font-size:12px;	background-color:#eee;	border:1px solid #ddd;	padding:5px;	line-height:1.5em;	color:#444;	overflow:auto;	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;	-webkit-border-radius:3px;	-moz-border-radius:3px;border-radius:3px;white-space: pre-wrap;word-wrap:break-word;}pre code {	padding:0;	font-size:12px;	background-color:#eee;	border:none;}code {	font-size:12px;	background-color:#f8f8ff;	color:#444;	padding:0 .2em;	border:1px solid #dedede;}img{border:0;max-width:100%;}abbr{border-bottom:none;}a{color:#4183c4;text-decoration:none;}a:hover{text-decoration:underline;}a code,a:link code,a:visited code{color:#4183c4;}h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6{border:0;}h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}h2{font-size:150%;margin-top:1.5em;border-top:4px solid #e0e0e0;padding-top:.5em;}h3{margin-top:1em;}hr{border:1px solid #ddd;}ul{margin:1em 0 1em 2em;}ol{margin:1em 0 1em 2em;}ul li,ol li{margin-top:.5em;margin-bottom:.5em;}ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}dt{font-weight:bold;margin-left:1em;}dd{margin-left:2em;margin-bottom:1em;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
-<body marginheight="0"><h1>LNMP Build</h1>
+    <style id="system" type="text/css">
+    * {
+        margin: 0;
+        padding: 0
+    }
+
+    body {
+        padding: .7em;
+        background-color: #f8f8f8;
+        color: #000;
+        font: 13.34px helvetica,arial,freesans,clean,sans-serif;
+        line-height: 1.4em
+    }
+
+    p {
+        margin: 1em 0;
+        line-height: 1.5em
+    }
+
+    table {
+        margin: 1em;
+        font: 100%;
+        font-size: inherit
+    }
+
+    table th {
+        padding: .2em 1em;
+        border-bottom: 1px solid #bbb
+    }
+
+    table td {
+        padding: .2em 1em;
+        border-bottom: 1px solid #ddd
+    }
+
+    input[type=image],input[type=password],input[type=text],textarea {
+        font: 99% helvetica,arial,freesans,sans-serif
+    }
+
+    option,select {
+        padding: 0 .25em
+    }
+
+    optgroup {
+        margin-top: .5em
+    }
+
+    code,pre {
+        font: 9pt Monaco,Courier New,DejaVu Sans Mono,Bitstream Vera Sans Mono,monospace
+    }
+
+    pre {
+        overflow: auto;
+        margin: 1em 0;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        -webkit-box-shadow: rgba(0,0,0,.07) 0 1px 2px inset;
+        color: #444;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        line-height: 1.5em
+    }
+
+    pre,pre code {
+        background-color: #eee;
+        font-size: 9pt
+    }
+
+    pre code {
+        padding: 0;
+        border: none
+    }
+
+    code {
+        padding: 0 .2em;
+        border: 1px solid #dedede;
+        background-color: #f8f8ff;
+        color: #444;
+        font-size: 9pt
+    }
+
+    img {
+        max-width: 100%;
+        border: 0
+    }
+
+    abbr {
+        border-bottom: none
+    }
+
+    a {
+        color: #4183c4;
+        text-decoration: none
+    }
+
+    a:hover {
+        text-decoration: underline
+    }
+
+    a code,a:link code,a:visited code {
+        color: #4183c4
+    }
+
+    h2,h3 {
+        margin: 1em 0
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+        border: 0
+    }
+
+    h1 {
+        margin-top: 1.5em;
+        padding-top: .5em;
+        border-top: 4px solid #aaa;
+        font-size: 170%
+    }
+
+    h1:first-child {
+        margin-top: 0;
+        padding-top: .25em;
+        border-top: none
+    }
+
+    h2 {
+        margin-top: 1.5em;
+        padding-top: .5em;
+        border-top: 4px solid #e0e0e0;
+        font-size: 150%
+    }
+
+    h3 {
+        margin-top: 1em
+    }
+
+    hr {
+        border: 1px solid #ddd
+    }
+
+    ol,ul {
+        margin: 1em 0 1em 2em
+    }
+
+    ol li,ul li {
+        margin-top: .5em;
+        margin-bottom: .5em
+    }
+
+    ol ol,ol ul,ul ol,ul ul {
+        margin-top: 0;
+        margin-bottom: 0
+    }
+
+    blockquote {
+        margin: 1em 0;
+        padding-left: .6em;
+        border-left: 5px solid #ddd;
+        color: #555
+    }
+
+    dt {
+        margin-left: 1em;
+        font-weight: 700
+    }
+
+    dd {
+        margin-bottom: 1em;
+        margin-left: 2em
+    }
+
+    @media screen and (min-width:768px) {
+        body {
+            margin: 10px auto;
+            width: 748px
+        }
+    }
+    </style>
+    <style id="custom" type="text/css"></style>
+</head>
+
+<body marginheight="0">
+<h1>LNMP 环境搭建</h1>
+<h3>(CentOS 6.8 + Nginx 1.10.3 + Mysql 5.7.18 + PHP 5.6.31)</h3>
+
 <h2>一、安装Nginx</h2>
 <h4>1、安装依赖</h4>
-<pre><code># yum -y install gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel</code></pre>
+<pre>
+    <code>
+# yum -y install gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
+    </code>
+</pre>
+
 <h4>2、下载 Nginx</h4>
-<pre><code># cd /usr/local/src
-    # wget http://nginx.org/download/nginx-1.10.3.tar.gz</code></pre>
+<pre>
+    <code>
+# cd /usr/local/src
+# wget http://nginx.org/download/nginx-1.10.3.tar.gz
+    </code>
+</pre>
+
 <h4>3、解压</h4>
 <pre><code># tar -zxvf nginx-1.10.3.tar.gz</code></pre>
+
 <h4>4、编译</h4>
-<pre><code># cd nginx-1.10.3
-    # ./configure \
-    --prefix=/usr \
-    --sbin-path=/usr/sbin/nginx \
-    --conf-path=/etc/nginx/nginx.conf \
-    --error-log-path=/var/log/nginx/error.log \
-    --http-log-path=/var/log/nginx/access.log \
-    --pid-path=/var/run/nginx/nginx.pid  \
-    --lock-path=/var/lock/nginx.lock \
-    --user=nginx \
-    --group=nginx \
-    --with-http_ssl_module \
-    --with-http_flv_module \
-    --with-http_stub_status_module \
-    --with-http_gzip_static_module \
-    --http-proxy-temp-path=/var/tmp/nginx/proxy/ \
-    --http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ \
-    --http-uwsgi-temp-path=/var/tmp/nginx/uwsgi \
-    --http-scgi-temp-path=/var/tmp/nginx/scgi \
-    --with-pcre
-    # make &amp;&amp; make install</code></pre>
+<pre>
+    <code>
+# cd nginx-1.10.3
+# ./configure \
+  --prefix=/usr \
+  --sbin-path=/usr/sbin/nginx \
+  --conf-path=/etc/nginx/nginx.conf \
+  --error-log-path=/var/log/nginx/error.log \
+  --http-log-path=/var/log/nginx/access.log \
+  --pid-path=/var/run/nginx/nginx.pid  \
+  --lock-path=/var/lock/nginx.lock \
+  --user=nginx \
+  --group=nginx \
+  --with-http_ssl_module \
+  --with-http_flv_module \
+  --with-http_stub_status_module \
+  --with-http_gzip_static_module \
+  --http-proxy-temp-path=/var/tmp/nginx/proxy/ \
+  --http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ \
+  --http-uwsgi-temp-path=/var/tmp/nginx/uwsgi \
+  --http-scgi-temp-path=/var/tmp/nginx/scgi \
+  --with-pcre
+# make &amp;&amp; make install
+    </code>
+</pre>
+
 <h4>5、创建启动脚本</h4>
 <pre><code># vim /etc/init.d/nginx</code></pre>
+
 <h6>5-1、脚本内容</h6>
-<pre><code>#!/bin/sh
-    #
-    # nginx - this script starts and stops the nginx daemon
-    #
-    # chkconfig:   - 85 15
-    # description:  NGINX is an HTTP(S) server, HTTP(S) reverse \
-    #               proxy and IMAP/POP3 proxy server
-    # processname: nginx
-    # config:      /etc/nginx/nginx.conf
-    # config:      /etc/sysconfig/nginx
-    # pidfile:     /var/run/nginx.pid
+<pre>
+    <code>
+#!/bin/sh
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15
+# description:  NGINX is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP/POP3 proxy server
+# processname: nginx
+# config:      /etc/nginx/nginx.conf
+# config:      /etc/sysconfig/nginx
+# pidfile:     /var/run/nginx.pid
 
-    # Source function library.
-    . /etc/rc.d/init.d/functions
+# Source function library.
+. /etc/rc.d/init.d/functions
 
-    # Source networking configuration.
-    . /etc/sysconfig/network
+# Source networking configuration.
+. /etc/sysconfig/network
 
-    # Check that networking is up.
-    [ "$NETWORKING" = "no" ] &amp;&amp; exit 0
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] &amp;&amp; exit 0
 
-    nginx="/usr/sbin/nginx"
-    prog=$(basename $nginx)
+nginx="/usr/sbin/nginx"
+prog=$(basename $nginx)
 
-    NGINX_CONF_FILE="/etc/nginx/nginx.conf"
+NGINX_CONF_FILE="/etc/nginx/nginx.conf"
 
-    [ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx
+[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx
 
-    lockfile=/var/lock/subsys/nginx
+lockfile=/var/lock/subsys/nginx
 
-    make_dirs() {
-    # make required directories
-    user=`$nginx -V 2&gt;&amp;1 | grep "configure arguments:.*--user=" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -`
-    if [ -n "$user" ]; then
-    if [ -z "`grep $user /etc/passwd`" ]; then
-    useradd -M -s /bin/nologin $user
-    fi
-    options=`$nginx -V 2&gt;&amp;1 | grep 'configure arguments:'`
-    for opt in $options; do
-    if [ `echo $opt | grep '.*-temp-path'` ]; then
-    value=`echo $opt | cut -d "=" -f 2`
-    if [ ! -d "$value" ]; then
-    # echo "creating" $value
-    mkdir -p $value &amp;&amp; chown -R $user $value
-    fi
-    fi
-    done
-    fi
-    }
+make_dirs() {
+# make required directories
+user=`$nginx -V 2&gt;&amp;1 | grep "configure arguments:.*--user=" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -`
+if [ -n "$user" ]; then
+if [ -z "`grep $user /etc/passwd`" ]; then
+useradd -M -s /bin/nologin $user
+fi
+options=`$nginx -V 2&gt;&amp;1 | grep 'configure arguments:'`
+for opt in $options; do
+if [ `echo $opt | grep '.*-temp-path'` ]; then
+value=`echo $opt | cut -d "=" -f 2`
+if [ ! -d "$value" ]; then
+# echo "creating" $value
+mkdir -p $value &amp;&amp; chown -R $user $value
+fi
+fi
+done
+fi
+}
 
-    start() {
-    [ -x $nginx ] || exit 5
-    [ -f $NGINX_CONF_FILE ] || exit 6
-    make_dirs
-    echo -n $"Starting $prog: "
-    daemon $nginx -c $NGINX_CONF_FILE
-    retval=$?
-    echo
-    [ $retval -eq 0 ] &amp;&amp; touch $lockfile
-    return $retval
-    }
+start() {
+[ -x $nginx ] || exit 5
+[ -f $NGINX_CONF_FILE ] || exit 6
+make_dirs
+echo -n $"Starting $prog: "
+daemon $nginx -c $NGINX_CONF_FILE
+retval=$?
+echo
+[ $retval -eq 0 ] &amp;&amp; touch $lockfile
+return $retval
+}
 
-    stop() {
-    echo -n $"Stopping $prog: "
-    killproc $prog -QUIT
-    retval=$?
-    echo
-    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile
-    return $retval
-    }
+stop() {
+echo -n $"Stopping $prog: "
+killproc $prog -QUIT
+retval=$?
+echo
+[ $retval -eq 0 ] &amp;&amp; rm -f $lockfile
+return $retval
+}
 
-    restart() {
-    configtest || return $?
-    stop
-    sleep 1
-    start
-    }
+restart() {
+configtest || return $?
+stop
+sleep 1
+start
+}
 
-    reload() {
-    configtest || return $?
-    echo -n $"Reloading $prog: "
-    killproc $nginx -HUP
-    RETVAL=$?
-    echo
-    }
+reload() {
+configtest || return $?
+echo -n $"Reloading $prog: "
+killproc $nginx -HUP
+RETVAL=$?
+echo
+}
 
-    force_reload() {
-    restart
-    }
+force_reload() {
+restart
+}
 
-    configtest() {
-    $nginx -t -c $NGINX_CONF_FILE
-    }
+configtest() {
+$nginx -t -c $NGINX_CONF_FILE
+}
 
-    rh_status() {
-    status $prog
-    }
+rh_status() {
+status $prog
+}
 
-    rh_status_q() {
-    rh_status &gt;/dev/null 2&gt;&amp;1
-    }
+rh_status_q() {
+rh_status &gt;/dev/null 2&gt;&amp;1
+}
 
-    case "$1" in
-    start)
-    rh_status_q &amp;&amp; exit 0
-    $1
-    ;;
-    stop)
-    rh_status_q || exit 0
-    $1
-    ;;
-    restart|configtest)
-    $1
-    ;;
-    reload)
-    rh_status_q || exit 7
-    $1
-    ;;
-    force-reload)
-    force_reload
-    ;;
-    status)
-    rh_status
-    ;;
-    condrestart|try-restart)
-    rh_status_q || exit 0
-    ;;
-    *)
-    echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}"
-    exit 2
-    esac</code></pre>
+case "$1" in
+start)
+rh_status_q &amp;&amp; exit 0
+$1
+;;
+stop)
+rh_status_q || exit 0
+$1
+;;
+restart|configtest)
+$1
+;;
+reload)
+rh_status_q || exit 7
+$1
+;;
+force-reload)
+force_reload
+;;
+status)
+rh_status
+;;
+condrestart|try-restart)
+rh_status_q || exit 0
+;;
+*)
+echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}"
+exit 2
+esac
+    </code>
+</pre>
+
 <h4>6、修改脚本权限</h4>
 <pre><code># chmod 755 /etc/init.d/nginx</code></pre>
+
 <h4>7、设置开机启动</h4>
-<pre><code># chkconfig --add nginx
-    # service nginx reload
-    # chkconfig nginx on</code></pre>
+<pre>
+    <code>
+# chkconfig --add nginx
+# service nginx reload
+# chkconfig nginx on
+    </code>
+</pre>
+
 <h4>8、启动 Nginx</h4>
 <pre><code># service nginx start</code></pre>
+
 <h2>二、安装 Mysql</h2>
 <h4>1、安装依赖</h4>
-<pre><code># yum -y install gcc gcc-c++ gcc-g77 make cmake bison ncurses-devel autoconf automake zlib* fiex* libxml*  libmcrypt* libtool-ltdl-devel* libaio libaio-devel bzr libtool ncurses5-devel imake libxml2-devel expat-devel</code></pre>
+<pre>
+    <code>
+# yum -y install gcc gcc-c++ gcc-g77 make cmake bison ncurses-devel autoconf automake zlib* fiex* libxml*  libmcrypt* libtool-ltdl-devel* libaio libaio-devel bzr libtool ncurses5-devel imake libxml2-devel expat-devel
+    </code>
+</pre>
+
 <h4>2、安装 boost_1_59_0 (必须是该版本)</h4>
 <h6>2-1、下载 boost_1_59_0</h6>
-<pre><code># cd /usr/local/src
-    # wget https://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</code></pre>
+<pre>
+    <code>
+# cd /usr/local/src
+# wget https://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
+    </code>
+</pre>
+
 <h6>2-2、解压</h6>
 <pre><code># tar -zxvf boost_1_59_0.tar.gz</code></pre>
+
 <h6>2-3、配置</h6>
-<pre><code># cd boost_1_59_0
-    # ./bootstrap.sh</code></pre>
+<pre>
+    <code>
+# cd boost_1_59_0
+# ./bootstrap.sh
+    </code>
+</pre>
+
 <h6>2-4、编译</h6>
 <pre><code># ./b2</code></pre>
+
 <h6>2-5、安装</h6>
 <pre><code># ./b2 install</code></pre>
+
 <h4>3、安装 cmake （最新版本）</h4>
 <h6>3-1、下载 cmake</h6>
-<pre><code># cd /usr/local/src
-    # wget https://cmake.org/files/v3.8/cmake-3.8.0.tar.gz</code></pre>
+<pre>
+    <code>
+# cd /usr/local/src
+# wget https://cmake.org/files/v3.8/cmake-3.8.0.tar.gz
+    </code>
+</pre>
+
 <h6>3-2、解压</h6>
 <pre><code># tar -xzvf cmake-3.8.0.tar.gz</code></pre>
+
 <h6>3-3、编译安装</h6>
-<pre><code># cd cmake-3.8.0
-    # ./bootstrap
-    # gmake
-    # gmake install</code></pre>
+<pre>
+    <code>
+# cd cmake-3.8.0
+# ./bootstrap
+# gmake
+# gmake install
+    </code>
+</pre>
+
 <h4>4、安装 Mysql 5.7.18</h4>
 <h6>4-1、添加mysql用户和所属组</h6>
-<pre><code># /usr/sbin/groupadd mysql
-    # /usr/sbin/useradd -g mysql mysql</code></pre>
+<pre>
+    <code>
+# /usr/sbin/groupadd mysql
+# /usr/sbin/useradd -g mysql mysql
+    </code>
+</pre>
+
 <h6>4-2、创建mysql安装目录和数据目录</h6>
-<pre><code># mkdir /usr/local/mysql
-    # mkdir /usr/local/mysql/data</code></pre>
+<pre>
+    <code>
+# mkdir /usr/local/mysql
+# mkdir /usr/local/mysql/data
+    </code>
+</pre>
+
 <h6>4-3、修改mysql目录所有者</h6>
 <pre><code># chown -R mysql:mysql /usr/local/mysql</code></pre>
+
 <h6>4-4、下载mysql源码包</h6>
-<pre><code># cd /usr/local/src
-    # wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.18.tar.gz</code></pre>
+<pre>
+    <code>
+# cd /usr/local/src
+# wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.18.tar.gz
+    </code>
+</pre>
+
 <h6>4-5、解压</h6>
 <pre><code># tar -xzvf mysql-5.7.18.tar.gz</code></pre>
+
 <h6>4-6、cmake编译配置</h6>
-<pre><code># cd mysql-5.7.18
-    # cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
-    -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock \
-    -DMYSQL_DATADIR=/usr/local/mysql/mydata \
-    -DSYSCONFDIR=/etc \
-    -DEXTRA_CHARSETS=all \
-    -DDEFAULT_CHARSET=utf8 \
-    -DDEFAULT_COLLATION=utf8_general_ci \
-    -DWITH_MYISAM_STORAGE_ENGINE=1 \
-    -DWITH_INNOBASE_STORAGE_ENGINE=1 \
-    -DWITH_MEMORY_STORAGE_ENGINE=1 \
-    -DWITH_READLINE=1 \
-    -DMYSQL_TCP_PORT=3306 \
-    -DENABLED_LOCAL_INFILE=1 \
-    -DWITH_PARTITION_STORAGE_ENGINE=1 \
-    -DWITH_SSL=yes \
-    -DWITH_BOOST=/usr/local/src/boost_1_59_0 \
-    -DMYSQL_USER=mysql</code></pre>
+<pre>
+    <code>
+# cd mysql-5.7.18
+# cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+  -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock \
+  -DMYSQL_DATADIR=/usr/local/mysql/mydata \
+  -DSYSCONFDIR=/etc \
+  -DEXTRA_CHARSETS=all \
+  -DDEFAULT_CHARSET=utf8 \
+  -DDEFAULT_COLLATION=utf8_general_ci \
+  -DWITH_MYISAM_STORAGE_ENGINE=1 \
+  -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+  -DWITH_MEMORY_STORAGE_ENGINE=1 \
+  -DWITH_READLINE=1 \
+  -DMYSQL_TCP_PORT=3306 \
+  -DENABLED_LOCAL_INFILE=1 \
+  -DWITH_PARTITION_STORAGE_ENGINE=1 \
+  -DWITH_SSL=yes \
+  -DWITH_BOOST=/usr/local/src/boost_1_59_0 \
+  -DMYSQL_USER=mysql
+    </code>
+</pre>
+
 <h6>4-7、编译安装</h6>
 <pre><code># make &amp;&amp; make install</code></pre>
+
 <h6>4-8、初始化数据库【注意：运行后最后一句[note] 生成了一个mysql默认密码，复制到一个地方，保存下来。】</h6>
-<pre><code># cd /usr/local/mysql/bin
-    # ./mysqld --initialize --user=mysql --datadir=/usr/local/mysql/data/ --basedir=/usr/local/mysql --socket=/usr/local/mysql/mysql.sock</code></pre>
+<pre>
+    <code>
+# cd /usr/local/mysql/bin
+# ./mysqld --initialize --user=mysql --datadir=/usr/local/mysql/data/ --basedir=/usr/local/mysql --socket=/usr/local/mysql/mysql.sock
+    </code>
+</pre>
+
 <h6>4-9、添加mysql服务</h6>
-<pre><code># cd /usr/local/src/mysql-5.7.18
-    # cd support-files
-    # cp -a mysql.server /etc/init.d/mysql</code></pre>
+<pre>
+    <code>
+# cd /usr/local/src/mysql-5.7.18
+# cd support-files
+# cp -a mysql.server /etc/init.d/mysql
+    </code>
+</pre>
+
 <h6>4-10、编辑mysql配置文件</h6>
-<pre><code># cd /etc
-    # sudo vi my.cnf
-    【修改配置文件中的
-    1)、datadir=/usr/local/mysql/data
-    2)、socket=/usr/local/mysql/mysql.sock
-    】</code></pre>
+<pre>
+    <code>
+# cd /etc
+# sudo vi my.cnf
+【修改配置文件中的
+1)、datadir=/usr/local/mysql/data
+2)、socket=/usr/local/mysql/mysql.sock
+】
+    </code>
+</pre>
+
 <h6>4-11、创建文件夹并给定用户和权限</h6>
-<pre><code># mkdir /var/lib/mysql
-    # chown mysql:mysql /var/lib/mysql
-    # chmod 777 /var/lib/mysql</code></pre>
+<pre>
+    <code>
+# mkdir /var/lib/mysql
+# chown mysql:mysql /var/lib/mysql
+# chmod 777 /var/lib/mysql
+    </code>
+</pre>
+
 <h6>4-12、启动mysql</h6>
 <pre><code># service mysql start</code></pre>
+
 <h6>4-13、设置开机启动</h6>
 <pre><code># chkconfig mysql on</code></pre>
+
 <h6>4-14、添加环境变量</h6>
-<pre><code># sudo vi /etc/profile
-    在文件末尾添加一行： export PATH=$PATH:/usr/local/mysql/bin
-    # :wq
-    # source /etc/profile   (使修改的profile文件生效)</code></pre>
+<pre>
+    <code>
+# sudo vi /etc/profile
+在文件末尾添加一行： export PATH=$PATH:/usr/local/mysql/bin
+# :wq
+# source /etc/profile   (使修改的profile文件生效)
+    </code>
+</pre>
+
 <h6>4-15、登录mysql</h6>
-<pre><code># mysql -u root -p
-    【注意：输入 4-8 中保存的密码后 回车】</code></pre>
+<pre>
+    <code>
+# mysql -u root -p
+【注意：输入 4-8 中保存的密码后 回车】
+    </code>
+</pre>
+
 <h6>4-16、修改root密码</h6>
 <pre><code># SET PASSWORD = PASSWORD('yourpassword');</code></pre>
+
 <h6>4-17、刷新mysql的系统权限相关表</h6>
 <pre><code># flush privileges;</code></pre>
+
 <h6>4-18、退出，并用新密码重新登录即可</h6>
 <pre><code># quit;</code></pre>
+
 <h2>三、安装php</h2>
 <h4>1、安装依赖</h4>
-<pre><code># yum install -y gcc gcc-c++ make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel openssl openssl-devel openldap openldap-devel  openldap-clients openldap-servers php-mcrypt  libmcrypt  libmcrypt-devel</code></pre>
+<pre>
+    <code>
+# yum install -y gcc gcc-c++ make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel openssl openssl-devel openldap openldap-devel  openldap-clients openldap-servers php-mcrypt  libmcrypt  libmcrypt-devel
+    </code>
+</pre>
+
 <h4>2、下载 php</h4>
-<pre><code># cd /usr/local/src
-    # wget http://cn2.php.net/distributions/php-5.6.31.tar.gz</code></pre>
+<pre>
+    <code>
+# cd /usr/local/src
+# wget http://cn2.php.net/distributions/php-5.6.31.tar.gz
+    </code>
+</pre>
+
 <h4>3、解压</h4>
 <pre><code># tar -zxvf php-5.6.31.tar.gz</code></pre>
+
 <h4>4、PHP 编译配置</h4>
-<pre><code># cd php-5.6.31
-    # ./configure \
-    --prefix=/usr/local/php \
-    --with-fpm-user=www --with-fpm-group=www \
-    --with-config-file-path=/usr/local/php/etc \
-    --with-mhash --with-mcrypt --enable-bcmath \
-    --enable-mysqlnd --with-mysql --with-mysqli --with-pdo-mysql \
-    --with-gd --enable-gd-native-ttf --with-jpeg-dir --with-png-dir --with-freetype-dir \
-    --enable-fpm \
-    --enable-mbstring \
-    --enable-pcntl \
-    --enable-sockets \
-    --enable-opcache \
-    --with-openssl \
-    --with-zlib \
-    --with-curl \
-    --with-libxml-dir \
-    --with-iconv-dir</code></pre>
+<pre>
+    <code>
+# cd php-5.6.31
+# ./configure \
+  --prefix=/usr/local/php \
+  --with-fpm-user=www --with-fpm-group=www \
+  --with-config-file-path=/usr/local/php/etc \
+  --with-mhash --with-mcrypt --enable-bcmath \
+  --enable-mysqlnd --with-mysql --with-mysqli --with-pdo-mysql \
+  --with-gd --enable-gd-native-ttf --with-jpeg-dir --with-png-dir --with-freetype-dir \
+  --enable-fpm \
+  --enable-mbstring \
+  --enable-pcntl \
+  --enable-sockets \
+  --enable-opcache \
+  --with-openssl \
+  --with-zlib \
+  --with-curl \
+  --with-libxml-dir \
+  --with-iconv-dir
+    </code>
+</pre>
+
 <h4>5、编译安装</h4>
-<pre><code># make &amp;&amp; make install
-    【注：
-    此处可能会出现一个error：make: *** [sapi/cli/php] Error 1
-    解决办法：编辑文件 Makefile
-    # vim Makefile
-    # /EXTRA_LIBS (查找EXTRA_LIBS的位置)
-    然后在末尾添加 -liconv
-    然后保存，再重新编译
-    】</code></pre>
+<pre>
+    <code>
+# make &amp;&amp; make install
+【注：
+此处可能会出现一个error：make: *** [sapi/cli/php] Error 1
+解决办法：编辑文件 Makefile
+# vim Makefile
+# /EXTRA_LIBS (查找EXTRA_LIBS的位置)
+然后在末尾添加 -liconv
+然后保存，再重新编译
+】
+    </code>
+</pre>
+
 <h4>6、复制生成php-fpm配置文件</h4>
 <pre><code># cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf</code></pre>
+
 <h4>7、复制生成一份php配置文件</h4>
 <pre><code># cp php.ini-production /usr/local/php/etc/php.ini</code></pre>
+
 <h4>8、将php-fpm加入系统服务</h4>
 <pre><code># cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm</code></pre>
+
 <h4>9、赋予执行权限</h4>
 <pre><code># chmod +x /etc/init.d/php-fpm</code></pre>
+
 <h4>10、设置开机启动</h4>
 <pre><code># chkconfig php-fpm on</code></pre>
+
 <h4>11、创建www用户</h4>
 <pre><code># groupadd www &amp;&amp; useradd -d /home/www -g www www</code></pre>
+
 <h4>12、启动php-fpm</h4>
 <pre><code># service php-fpm start</code></pre>
+
 <h4>13、添加环境变量</h4>
-<pre><code># sudo vi /etc/profile
-    修改行： export PATH=$PATH:/usr/local/mysql/bin:/usr/local/php/bin
-    # :wq
-    # source /etc/profile   (使修改的profile文件生效)</code></pre>
+<pre>
+    <code>
+# sudo vi /etc/profile
+修改行： export PATH=$PATH:/usr/local/mysql/bin:/usr/local/php/bin
+# :wq
+# source /etc/profile   (使修改的profile文件生效)
+    </code>
+</pre>
+
 <h2>四、配置nginx支持php-fpm(修改nginx.conf配置文件)</h2>
 <h4>1、编辑nginx配置文件，具体路径根据实际的nginx.conf配置文件位置编辑，下面主要修改nginx的server {}配置块中的内容，修改location块，追加index.php让nginx服务器默认支持index.php为首页</h4>
-<pre><code># sudo vi /etc/nginx/nginx.conf
-    location / {
+<pre>
+    <code>
+# sudo vi /etc/nginx/nginx.conf
+location / {
     root   html;
     index  index.html index.htm index.php;
-    }</code></pre>
+}
+    </code>
+</pre>
+
 <h4>2、然后配置.php请求被传送到后端的php-fpm模块，默认情况下php配置块是被注释的，此时去掉注释并修改为以下内容，这里面很多都是默认的，root是配置php程序放置的根目录，主要修改的就是fastcgi_param中的/scripts为$document_root</h4>
-<pre><code>location ~ \.php\$ {
+<pre>
+    <code>
+location ~ \.php\$ {
     root           html;
     fastcgi_pass   127.0.0.1:9000;
     fastcgi_index  index.php;
     fastcgi_param  SCRIPT_FILENAME  \$document_root$fastcgi_script_name;
     include        fastcgi_params;
-    }</code></pre>
+}
+    </code>
+</pre>
+
 <h4>3、保存退出并重启nginx服务</h4>
-<pre><code># :wq
-    # service nginx restart</code></pre>
+<pre>
+    <code>
+# :wq
+# service nginx restart
+    </code>
+</pre>
+
 <h3>至此，LNMP环境已搭建完毕。</h3>
-</body></html>
+
+</body>
+</html>
