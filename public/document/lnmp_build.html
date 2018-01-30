@@ -500,7 +500,29 @@ esac
 </pre>
 
 <h6>4-7、编译安装</h6>
-<pre><code># make &amp;&amp; make install</code></pre>
+<pre><code>
+# make &amp;&amp; make install
+ 【
+     注意：这里可能会报错(如果在阿里云内存不足编译失败)
+
+     错误代码信息：
+     c++: Internal error: Killed (program cc1plus)
+     Please submit a full bug report.
+     See <http://bugzilla.redhat.com/bugzilla> for instructions.
+     make[2]: *** [sql/CMakeFiles/sql.dir/item_geofunc.cc.o] Error 1
+     make[1]: *** [sql/CMakeFiles/sql.dir/all] Error 2
+     make: *** [all] Error 2
+
+     处理方法：用2g分区交换，运行下面
+     # dd if=/dev/zero of=/swapfile bs=1k count=2048000 --获取要增加的2G的SWAP文件块
+     # mkswap /swapfile     -- 创建SWAP文件
+     # swapon /swapfile     -- 激活SWAP文件
+     # swapon -s            -- 查看SWAP信息是否正确
+     # echo "/var/swapfile swap swap defaults 0 0" >> /etc/fstab   -- 添加到fstab文件中让系统引导时自动启动
+
+     然后需要删除CMakeCache.txt文件，再重新cmake预编译
+ 】
+</code></pre>
 
 <h6>4-8、初始化数据库【注意：运行后最后一句[note] 生成了一个mysql默认密码，复制到一个地方，保存下来。】</h6>
 <pre>
@@ -620,14 +642,15 @@ esac
 <pre>
     <code>
 # make &amp;&amp; make install
-【注：
-此处可能会出现一个error：make: *** [sapi/cli/php] Error 1
-解决办法：编辑文件 Makefile
-# vim Makefile
-# /EXTRA_LIBS (查找EXTRA_LIBS的位置)
-然后在末尾添加 -liconv
-然后保存，再重新编译
-】
+ 【
+     注意：
+     此处可能会出现一个error：make: *** [sapi/cli/php] Error 1
+     解决办法：编辑文件 Makefile
+     # vim Makefile
+     # /EXTRA_LIBS (查找EXTRA_LIBS的位置)
+     然后在末尾添加 -liconv
+     然后保存，再重新编译
+ 】
     </code>
 </pre>
 
