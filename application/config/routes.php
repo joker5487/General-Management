@@ -62,6 +62,8 @@ $route['admin/user/info']          = 'adminController/User/get_user_info';
 $route['admin/user/handle']        = 'adminController/user/user_handle';
 $route['admin/upload']             = 'adminController/Upload/uploadFile';
 
+$route['admin/excel/export']       = 'adminController/Excel/ExcelExport';
+
 
 // 暂未使用
 $route['admin/test/index'] = 'adminController/Admin_Test/index';
