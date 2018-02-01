@@ -19,31 +19,66 @@ class Excel extends Admin_Controller {
         $this->load->library('PHPExcel');
         $this->load->library('PHPExcel/IOFactory');
 
-        $resultPHPExcel = new PHPExcel();
-        //设置sheet标签
-        $resultPHPExcel->setActiveSheetIndex(0);
-        //设置sheet的name
-        $resultPHPExcel->getActiveSheet()->setTitle('测试sheet');
+        $objPHPExcel = new PHPExcel();
+        // 设置sheet标签
+        $objPHPExcel->setActiveSheetIndex(0);
+        // 设置sheet的name
+        $objPHPExcel->getActiveSheet()->setTitle('测试sheet');
 
-        //合并单元格
-        $resultPHPExcel->getActiveSheet()->mergeCells('A10:C15');
+        // 合并单元格
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:E1');
+        // 设置行高
+        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+
+        // 自动行高
+        $objPHPExcel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
+
+        // 设置水平居中
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        //设置垂直居中
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+        // 设置加粗
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 
         //设置当前的sheet
-        $resultPHPExcel->getActiveSheet()->setCellValue('A1', '项目');
-        $resultPHPExcel->getActiveSheet()->setCellValue('B1', '结果');
-        $resultPHPExcel->getActiveSheet()->setCellValue('C1', '数量');
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', '导出测试excel样式及内容');
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'IMG');
+        $objPHPExcel->getActiveSheet()->setCellValue('B2', '项目');
+        $objPHPExcel->getActiveSheet()->setCellValue('C2', '结果');
+        $objPHPExcel->getActiveSheet()->setCellValue('D2', '数量');
+        $objPHPExcel->getActiveSheet()->setCellValue('E2', '统计');
 
-        $i = 2;
-        $m_data = ['A', 'B', 'C', 'D'];
+        $i = 3;
+        $m_data = ['12', '5445', '457', '63'];
         foreach($m_data as $key => $value){
-            $resultPHPExcel->getActiveSheet()->setCellValue('A' . $i, $value);
-            $resultPHPExcel->getActiveSheet()->setCellValue('B' . $i, $value);
-            $resultPHPExcel->getActiveSheet()->setCellValue('C' . $i, $value);
+            // 设置行高
+            $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(45);
+            $objPHPExcel->getActiveSheet()->getDefaultColumnDimension('A'.$i)->setWidth(8);
+
+            // 图片生成
+            $imgPath = PUBLIC_IMG_RESOURCE_PATH . 'default-user.jpg';
+            $objDrawing = new PHPExcel_Worksheet_Drawing();
+            $objDrawing->setPath($imgPath);
+            // 设置宽度高度
+            $objDrawing->setHeight(40);//照片高度
+            $objDrawing->setWidth(40); //照片宽度
+            /*设置图片要插入的单元格*/
+            $objDrawing->setCoordinates('A'.$i);
+            // 图片偏移距离
+            $objDrawing->setOffsetX(10);
+            $objDrawing->setOffsetY(10);
+            $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $value);
+            $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $value);
+            $objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $value);
+            $objPHPExcel->getActiveSheet()->setCellValue('E' . $i, '=SUM(B'.$i.':D'.$i.')');
             $i ++;
         }
 
         $outputFileName = time().".xls";
-        $xlsWriter = new PHPExcel_Writer_Excel5($resultPHPExcel);
+        $xlsWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
         header("Content-Type: application/force-download");
         header("Content-Type: application/octet-stream");
         header("Content-Type: application/download");

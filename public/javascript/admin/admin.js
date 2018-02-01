@@ -250,7 +250,7 @@ Page.user_list = (function(){
     };
 
     // 渲染页面数据
-    var setHtml = function(){
+    var set_html = function(){
         var data = get_user_list();
         var userList = data.data.userList;
         var nextFlg = data.data.nextFlg;
@@ -329,12 +329,21 @@ Page.user_list = (function(){
         });
     };
 
+    // 导出按钮事件
+    var user_export = function(){
+        $("#btn_user_export").click(function(){
+            var url = Public.Chain("path").setUrl("excel/export").getPath();
+            location.href = url;
+        });
+    }
+
     var bind = function(){
         test();
-        setHtml();
+        set_html();
         btn_user_add();
         btn_prev();
         btn_next();
+        user_export();
     };
 
     var init = function () {
