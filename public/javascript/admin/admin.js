@@ -138,11 +138,15 @@ Public.jump = function(path, target){
  * 加载Modal弹窗的方法
  * dialogId string 标识 modal弹窗的Id
  * */
-Public.addDialog = function(dialogId){
+Public.addDialog = function(dialogId, folderPath){
     var modalId = 'myModal' + dialogId;
+
+    folderPath = folderPath ? folderPath : "";
+    folderPath = Public.Chain("path").formatUrl(folderPath).getPath();
+
     // 绑定modal弹窗的html
     $("#mmmmm").html("");
-    var modalHtml = '<div class="modal fade"tabindex="-1"role="dialog"data-target=".bs-example-modal-lg"id="'+modalId+'"><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button"class="close"data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">文件上传</h4></div><div class="modal-body"><div id="uploader"class="wu-example"><div class="queueList"><div id="dndArea"class="placeholder"><div id="filePicker"></div><p>或将照片拖到这里，单次最多可选300张</p></div></div><div class="statusBar"style="display:none;"><div class="progress"><span class="text">0%</span><span class="percentage"></span></div><div class="info"></div><div class="btns"><div id="filePicker2"></div><div class="uploadBtn">开始上传</div></div></div></div></div><div class="modal-footer"><button type="button"class="btn btn-default"data-dismiss="modal">Close</button></div></div></div></div>';
+    var modalHtml = '<div class="modal fade"tabindex="-1"role="dialog"data-target=".bs-example-modal-lg"id="'+modalId+'"><input type="hidden" id="folderPath" value="'+folderPath+'" /><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button"class="close"data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">文件上传</h4></div><div class="modal-body"><div id="uploader"class="wu-example"><div class="queueList"><div id="dndArea"class="placeholder"><div id="filePicker"></div><p>或将照片拖到这里，单次最多可选300张</p></div></div><div class="statusBar"style="display:none;"><div class="progress"><span class="text">0%</span><span class="percentage"></span></div><div class="info"></div><div class="btns"><div id="filePicker2"></div><div class="uploadBtn">开始上传</div></div></div></div></div><div class="modal-footer"><button type="button"class="btn btn-default"data-dismiss="modal">Close</button></div></div></div></div>';
     $("#mmmmm").append(modalHtml);
 
     $('#' + modalId).modal({
@@ -218,6 +222,17 @@ Public.showFiles = function(dialogId, folderPath){
  * */
 function path () {};
 path.prototype = {//扩展它的prototype
+    formatUrl: function(path){
+        var newPath = path.toLocaleLowerCase();
+        if(newPath.indexOf("http://") === -1 && newPath.indexOf("https://") === -1){
+            this.path = path.replace(/\/+/g, '/');
+        }else{
+            var pathArr = path.split("://");
+            this.path = pathArr[0] + "://" + pathArr[1].replace(/\/\//g, '/');
+        }
+
+        return this;
+    },
     setUrl: function (path) {
         var apiHost = Public.trimStr(Api_host);
         var newPath = apiHost;
@@ -410,7 +425,8 @@ Page.user_list = (function(){
     // 打开上传modal弹窗
     var openUploadModal = function(){
         $("#btn_user_import").click(function(){
-            Public.addDialog('userImport');
+            var dir = "listTest";
+            Public.addDialog('userImport', dir);
         });
     };
 
@@ -476,10 +492,11 @@ Page.user_opt = (function(){
     // 打开上传modal弹窗
     var openUploadModal = function(){
         $("#fileUpload").click(function(){
-            Public.addDialog('userHeadImg');
+            var dir = "test/";
+            Public.addDialog('userHeadImg', dir);
 
             // 文件上传成功后,绑定页面回显事件
-            Public.showFiles("userHeadImg", imgPublicPath + "test/");
+            Public.showFiles("userHeadImg", imgPublicPath + dir);
         });
     };
 

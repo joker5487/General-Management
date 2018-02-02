@@ -16,8 +16,13 @@ class Upload extends Admin_Controller {
 
     public function uploadFile(){
         log_message('info', json_encode($_FILES));
-        file_put_contents('application/logs/upload.log', json_encode($_FILES), FILE_APPEND);
-        $this->set_upload_params();
+        file_put_contents('application/logs/upload.log', json_encode($_FILES)."\n".$_REQUEST['folderPath']."\n\n", FILE_APPEND);
+
+        $folderPath = PUBLIC_IMG_RESOURCE_PATH . $_REQUEST['folderPath'];
+        if(!is_dir($folderPath)){
+            mkdir($folderPath, 0777, true);
+        }
+        $this->set_upload_params($folderPath);
 
         $up = 'file';
         if($this->upload->do_upload($up)){
@@ -31,9 +36,9 @@ class Upload extends Admin_Controller {
         }
     }
 
-    public function set_upload_params(){
+    public function set_upload_params($uploadPath){
         $config = array();
-        $config['upload_path'] =  PUBLIC_IMG_RESOURCE_PATH . 'test/';
+        $config['upload_path'] =  $uploadPath; // PUBLIC_IMG_RESOURCE_PATH . 'test/';
         $config['allowed_types'] = '*'; //'gif|jpg|png|jpeg';
         $config['max_size'] = 20480;
 

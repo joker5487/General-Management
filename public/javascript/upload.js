@@ -82,6 +82,9 @@ jQuery(function() {
         disableGlobalDnd: true,
 
         chunked: true,
+        formData: {
+            "folderPath": $("#folderPath").val()
+        },
         // server: 'http://webuploader.duapp.com/server/fileupload.php',
         //server: 'http://2betop.net/fileupload.php',
         server: Host + 'admin/upload',
