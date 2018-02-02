@@ -134,6 +134,76 @@ Public.jump = function(path, target){
     }
 };
 
+/*
+ * 加载Modal弹窗的方法
+ * dialogId string 标识 modal弹窗的Id
+ * */
+Public.addDialog = function(dialogId){
+    var modalId = 'myModal' + dialogId;
+    // 绑定modal弹窗的html
+    $("#mmmmm").html("");
+    var modalHtml = '<div class="modal fade"tabindex="-1"role="dialog"data-target=".bs-example-modal-lg"id="'+modalId+'"><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button"class="close"data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">文件上传</h4></div><div class="modal-body"><div id="uploader"class="wu-example"><div class="queueList"><div id="dndArea"class="placeholder"><div id="filePicker"></div><p>或将照片拖到这里，单次最多可选300张</p></div></div><div class="statusBar"style="display:none;"><div class="progress"><span class="text">0%</span><span class="percentage"></span></div><div class="info"></div><div class="btns"><div id="filePicker2"></div><div class="uploadBtn">开始上传</div></div></div></div></div><div class="modal-footer"><button type="button"class="btn btn-default"data-dismiss="modal">Close</button></div></div></div></div>';
+    $("#mmmmm").append(modalHtml);
+
+    $('#' + modalId).modal({
+        "show": true,
+        "backdrop": "static",
+        "keyboard": false
+    });
+    $('#' + modalId).on("shown.bs.modal", function(){
+        var jsUrl = "public/javascript/upload.js";
+        Public.addJS(jsUrl);
+    });
+};
+
+/*
+ * 动态延时加载upload.js文件
+ * jsUrl string 需要加载的js文件历经
+ * */
+Public.addJS = function(jsUrl){
+    var new_element=document.createElement("script");
+    new_element.setAttribute("type","text/javascript");
+    new_element.setAttribute("src", jsUrl);
+    document.body.appendChild(new_element);
+};
+
+/*
+ * 上传完成后，页面的上传文件回显
+ * dialogId string 标识 modal弹窗的Id
+ * folderPath string 用做回显的文件夹路径
+ * */
+Public.showFiles = function(dialogId, folderPath){
+    var id = "myModal" + dialogId;
+    $('#' + id).on("hide.bs.modal", function(){
+        //console.info(allSuccessFiles);
+        var fileHtml = "";
+        var filePath = "";
+        var newFilePath = filePath;
+        var len = allSuccessFiles.length;
+        if(len > 0){
+            for(var m = 0; m < len; m++){
+                var fileName = allSuccessFiles[m]["file_name"];
+                var fileExt = allSuccessFiles[m]["file_ext"];
+                fileExt = fileExt.substring(1).toLowerCase();
+                var imageType = allSuccessFiles[m]["image_type"];
+
+                filePath = folderPath + fileName;
+
+                if(fileExt == ""){
+                    fileHtml += "<img src='" + imgSourcePath + "fileType/ini.png' />";
+                }else if(imageType == "jpeg"){
+                    fileHtml += "<img src='" + imgSourcePath + "test/" + fileName + "' />";
+                }else{
+                    fileHtml += '<img src="' + imgSourcePath + 'fileType/' + fileExt + '.png' + '" onerror="javascript:this.src=' + imgSourcePath + 'fileType/ini.png' + '" />';
+                }
+            }
+
+            $("#fileList").html("");
+            $("#fileList").append(fileHtml);
+            $("#filePath").val(filePath);
+        }
+    });
+};
 
 
 /* ========================================== 以下是页面JS链式方法部分 ========================================== */
@@ -335,7 +405,14 @@ Page.user_list = (function(){
             var url = Public.Chain("path").setUrl("excel/export").getPath();
             location.href = url;
         });
-    }
+    };
+
+    // 打开上传modal弹窗
+    var openUploadModal = function(){
+        $("#btn_user_import").click(function(){
+            Public.addDialog('userImport');
+        });
+    };
 
     var bind = function(){
         test();
@@ -344,6 +421,7 @@ Page.user_list = (function(){
         btn_prev();
         btn_next();
         user_export();
+        openUploadModal();
     };
 
     var init = function () {
@@ -398,68 +476,10 @@ Page.user_opt = (function(){
     // 打开上传modal弹窗
     var openUploadModal = function(){
         $("#fileUpload").click(function(){
-            setModal();
-            $('#fileUploadModal').modal({
-                "show": true,
-                "backdrop": "static",
-                "keyboard": false
-            });
-            $('#fileUploadModal').on("shown.bs.modal", function(){
-                addJS();
-            });
+            Public.addDialog('userHeadImg');
 
-        });
-    };
-
-    // 绑定modal弹窗的html
-    var setModal = function(){
-        $("#mmmmm").html("");
-        var modalHtml = '<div class="modal fade"tabindex="-1"role="dialog"data-target=".bs-example-modal-lg"id="fileUploadModal"><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button"class="close"data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">文件上传</h4></div><div class="modal-body"><div id="uploader"class="wu-example"><div class="queueList"><div id="dndArea"class="placeholder"><div id="filePicker"></div><p>或将照片拖到这里，单次最多可选300张</p></div></div><div class="statusBar"style="display:none;"><div class="progress"><span class="text">0%</span><span class="percentage"></span></div><div class="info"></div><div class="btns"><div id="filePicker2"></div><div class="uploadBtn">开始上传</div></div></div></div></div><div class="modal-footer"><button type="button"class="btn btn-default"data-dismiss="modal">Close</button></div></div></div></div>';
-
-        //var modalHtml = $("#fileUploadModal").html();
-        $("#mmmmm").append(modalHtml);
-
-        // 文件上传成功后,绑定页面回显事件
-        showFiles();
-    };
-
-    // 动态延时加载upload.js文件
-    var addJS = function(){
-        var new_element=document.createElement("script");
-        new_element.setAttribute("type","text/javascript");
-        new_element.setAttribute("src","public/javascript/upload.js");
-        document.body.appendChild(new_element);
-    };
-
-    // 上传完成后，页面的上传文件回显
-    var showFiles = function(){
-        $('#fileUploadModal').on("hide.bs.modal", function(){
-            //console.info(allSuccessFiles);
-            var fileHtml = "";
-            var filePath = "";
-            var len = allSuccessFiles.length;
-            if(len > 0){
-                for(var m = 0; m < len; m++){
-                    var fileName = allSuccessFiles[m]["file_name"];
-                    var fileExt = allSuccessFiles[m]["file_ext"];
-                    fileExt = fileExt.substring(1).toLowerCase();
-                    var imageType = allSuccessFiles[m]["image_type"];
-
-                    filePath = imgPublicPath + "test/" + fileName;
-
-                    if(fileExt == ""){
-                        fileHtml += "<img src='" + imgSourcePath + "fileType/ini.png' />";
-                    }else if(imageType == "jpeg"){
-                        fileHtml += "<img src='" + imgSourcePath + "test/" + fileName + "' />";
-                    }else{
-                        fileHtml += '<img src="'+imgSourcePath+'fileType/'+fileExt+'.png'+'" onerror="javascript:this.src='+imgSourcePath+'fileType/ini.png'+'" />';
-                    }
-                }
-
-                $("#fileList").html("");
-                $("#fileList").append(fileHtml);
-                $("#filePath").val(filePath);
-            }
+            // 文件上传成功后,绑定页面回显事件
+            Public.showFiles("userHeadImg", imgPublicPath + "test/");
         });
     };
 
