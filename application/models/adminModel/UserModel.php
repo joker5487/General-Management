@@ -44,4 +44,10 @@ class UserModel extends MY_Model
 
         return $userInfo;
     }
+
+    public function import_user($data){
+        $res = $this->insert_batch('user_admin', $data);
+
+        return $res;
+    }
 }

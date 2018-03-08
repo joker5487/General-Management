@@ -379,7 +379,7 @@ Page.user_list = (function(){
             }
             $("#currentPage").val(pageNum);
 
-            setHtml();
+            set_html();
         });
     };
 
@@ -392,7 +392,7 @@ Page.user_list = (function(){
             }
             $("#currentPage").val(pageNum);
 
-            setHtml();
+            set_html();
         });
     };
 
@@ -422,7 +422,7 @@ Page.user_list = (function(){
         });
     };
 
-    // 打开上传modal弹窗
+    // 导入按钮事件，打开上传modal弹窗
     var openUploadModal = function(){
         $("#btn_user_import").click(function(){
             var dir = "listTest";

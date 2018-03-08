@@ -63,6 +63,7 @@ $route['admin/user/handle']        = 'adminController/user/user_handle';
 $route['admin/upload']             = 'adminController/Upload/uploadFile';
 
 $route['admin/excel/export']       = 'adminController/Excel/ExcelExport';
+$route['admin/excel/import']       = 'adminController/Excel/ExcelImport';
 
 
 // 暂未使用

@@ -13,6 +13,7 @@ require_once (APPPATH . 'controllers/adminController/Admin_Controller.php');
 class Excel extends Admin_Controller {
     public function __construct(){
         parent::__construct();
+        $this->load->model('adminModel/userModel');
     }
 
     public function ExcelExport(){
@@ -89,5 +90,43 @@ class Excel extends Admin_Controller {
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Pragma: no-cache");
         $xlsWriter->save( "php://output" );
+    }
+
+    public function ExcelImport(){
+        //加载工厂类
+        $this->load->library('PHPExcel/IOFactory');
+
+        //要读取的xls文件路径
+        $inputFileName = PUBLIC_IMG_RESOURCE_PATH . 'listTest/userListTest.xlsx';
+
+        /** 用PHPExcel_IOFactory的load方法得到excel操作对象  **/
+        $objPHPExcel = IOFactory::load($inputFileName);
+
+        //得到当前活动表格，调用toArray方法，得到表格的二维数组
+        $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+
+        $sheet = $objPHPExcel->getActiveSheet(); // 当前活动表格
+        $highestRow = $sheet -> getHighestRow(); // 取得总行数
+        $highestColumn = $sheet->getHighestColumn(); // 取得总列数(格式：'AA')
+        $columns = PHPExcel_Cell::columnIndexFromString($highestColumn); // 将数据总列数(格式：'AA')转换成数字列数(格式：27)表示
+
+        // 处理转换成可以存入数据库表中的数据
+        $newData = [];
+        for($currentRow = 2; $currentRow <= $highestRow; $currentRow++){
+            $rowData = [];
+            foreach($sheetData[1] as $key => $currentColumn){
+                $rowData[$currentColumn] = $sheetData[$currentRow][$key]; //$objPHPExcel->getActiveSheet()->getCell($key.$currentRow)->getValue();
+            }
+
+            $newData[] = $rowData;
+        }
+
+        // 插入数据
+        $res = $this->userModel->import_user($newData);
+
+        if(!$res){
+            $this->ajax_return('500', 'Import Failed!');
+        }
+        $this->ajax_return('200', 'Import Success!');
     }
 }
