@@ -69,3 +69,4 @@ $route['admin/excel/import']       = 'adminController/Excel/ExcelImport';
 // 暂未使用
 $route['admin/test/index'] = 'adminController/Admin_Test/index';
 $route['admin/files/get']  = 'adminController/User/get_files';
+$route['admin/test/ci']  = 'test/index';

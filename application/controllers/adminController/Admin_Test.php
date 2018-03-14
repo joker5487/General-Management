@@ -27,6 +27,6 @@ class Admin_Test extends Admin_Controller{
         $data['testKey001'] = 'testVal001';
         $this->assign('data', $data);
 
-        $this->display(LAYOUT_PATH);
+        $this->display(ADMIN_LAYOUT_PATH);
     }
 }

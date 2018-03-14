@@ -13,17 +13,10 @@ class Test extends MY_Controller
     }
 
     public function index(){
-        $layout = [];
-        $layout['page'] = 'test';
-        $layout['title'] = 'Page1';
-        $layout['asideMenu'] = config_item('asideMenu');
-        $this->assign('layout', $layout);
-
         $data = [];
-        $data['describe'] = '这个控制器及其对应的页面均为系统测试页面！！！';
-        $data['testKey001'] = 'testVal001';
+        $data['describe'] = '测试CI框架整合Smarty模版引擎！！！';
         $this->assign('data', $data);
 
-        $this->display(APPPATH . 'views/templates/admin/layout.html');
+        $this->display(APPPATH . 'views/templates/test.tpl');
     }
 }
