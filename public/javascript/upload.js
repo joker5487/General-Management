@@ -1,4 +1,9 @@
 jQuery(function() {
+    // 动态获取上传初始化参数
+    var fileNumLimit = document.getElementById('jsParamScript').getAttribute('fileNumLimit');
+    var fileSizeLimit = document.getElementById('jsParamScript').getAttribute('fileSizeLimit');
+    var fileSingleSizeLimit = document.getElementById('jsParamScript').getAttribute('fileSingleSizeLimit');
+
     var $ = jQuery,    // just in case. Make sure it's not an other libaray.
 
     $wrap = $('#uploader'),
@@ -77,7 +82,7 @@ jQuery(function() {
         },*/
 
         // swf文件路径
-        swf: Host + 'public/javascript/Uploader.swf',
+        // swf: Host + 'public/javascript/Uploader.swf',
 
         disableGlobalDnd: true,
 
@@ -88,7 +93,7 @@ jQuery(function() {
         // server: 'http://webuploader.duapp.com/server/fileupload.php',
         //server: 'http://2betop.net/fileupload.php',
         server: Host + 'admin/upload',
-        fileNumLimit: 300,
+        fileNumLimit: fileNumLimit, // 300,
         fileSizeLimit: 5 * 1024 * 1024,    // 200 M
         fileSingleSizeLimit: 1 * 1024 * 1024    // 50 M
     });
@@ -416,6 +421,16 @@ jQuery(function() {
                 setState('paused');
                 break;
 
+        }
+    });
+
+    uploader.on("uploadAccept", function( file, data){
+        console.info('====== uploader');
+        console.info(data);
+        console.info('====== end');
+        if ( data.success=="0") {
+            // 通过return false来告诉组件，此文件上传有错。
+            return false;
         }
     });
 

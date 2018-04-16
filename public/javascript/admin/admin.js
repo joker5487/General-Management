@@ -163,11 +163,27 @@ Public.addDialog = function(dialogId, folderPath){
 /*
  * 动态延时加载upload.js文件
  * jsUrl string 需要加载的js文件历经
+ * data array 需要动态传入的参数,其中key需要和js文件中的取值方式完全对应 格式： ["key1": "val1", "key2": "val2"]
  * */
-Public.addJS = function(jsUrl){
+Public.addJS = function(jsUrl, data){
     var new_element=document.createElement("script");
     new_element.setAttribute("type","text/javascript");
     new_element.setAttribute("src", jsUrl);
+
+    // 向引用的js文件传递相应的参数
+    if(data){
+        new_element.setAttribute("id", "jsParamScript");
+        for(data in value){
+            new_element.setAttribute("fileNumLimit", 1);
+        }
+        new_element.setAttribute("fileNumLimit", 1);
+        new_element.setAttribute("fileSizeLimit", "sdasdasdasdas");
+        new_element.setAttribute("fileSingleSizeLimit", "sdasdasdasdas");
+
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(new_element, s);
+    }
+
     document.body.appendChild(new_element);
 };
 
