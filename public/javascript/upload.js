@@ -3,6 +3,8 @@ jQuery(function() {
     var fileNumLimit = document.getElementById('jsParamScript').getAttribute('fileNumLimit');
     var fileSizeLimit = document.getElementById('jsParamScript').getAttribute('fileSizeLimit');
     var fileSingleSizeLimit = document.getElementById('jsParamScript').getAttribute('fileSingleSizeLimit');
+    fileSizeLimit = fileSizeLimit * 1024 * 1024;
+    fileSingleSizeLimit = fileSingleSizeLimit * 1024 * 1024;
 
     var $ = jQuery,    // just in case. Make sure it's not an other libaray.
 
@@ -94,8 +96,8 @@ jQuery(function() {
         //server: 'http://2betop.net/fileupload.php',
         server: Host + 'admin/upload',
         fileNumLimit: fileNumLimit, // 300,
-        fileSizeLimit: 5 * 1024 * 1024,    // 200 M
-        fileSingleSizeLimit: 1 * 1024 * 1024    // 50 M
+        fileSizeLimit: fileSizeLimit, // 5 * 1024 * 1024,    // 200 M
+        fileSingleSizeLimit: fileSingleSizeLimit //1 * 1024 * 1024    // 50 M
     });
 
     // 添加“添加文件”的按钮，

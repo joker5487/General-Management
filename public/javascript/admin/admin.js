@@ -156,7 +156,12 @@ Public.addDialog = function(dialogId, folderPath){
     });
     $('#' + modalId).on("shown.bs.modal", function(){
         var jsUrl = "public/javascript/upload.js";
-        Public.addJS(jsUrl);
+        var data = {
+            "fileNumLimit": 300,
+            "fileSizeLimit": 5,
+            "fileSingleSizeLimit": 1
+        };
+        Public.addJS(jsUrl, data);
     });
 };
 
@@ -165,7 +170,7 @@ Public.addDialog = function(dialogId, folderPath){
  * jsUrl string 需要加载的js文件历经
  * data array 需要动态传入的参数,其中key需要和js文件中的取值方式完全对应 格式： ["key1": "val1", "key2": "val2"]
  * */
-Public.addJS = function(jsUrl, data){
+Public.addJS = function(jsUrl, data = []){
     var new_element=document.createElement("script");
     new_element.setAttribute("type","text/javascript");
     new_element.setAttribute("src", jsUrl);
@@ -173,12 +178,11 @@ Public.addJS = function(jsUrl, data){
     // 向引用的js文件传递相应的参数
     if(data){
         new_element.setAttribute("id", "jsParamScript");
-        for(data in value){
-            new_element.setAttribute("fileNumLimit", 1);
+
+        for(var itemKey in data){
+            var itemValue = data[itemKey];
+            new_element.setAttribute(itemKey, itemValue);
         }
-        new_element.setAttribute("fileNumLimit", 1);
-        new_element.setAttribute("fileSizeLimit", "sdasdasdasdas");
-        new_element.setAttribute("fileSingleSizeLimit", "sdasdasdasdas");
 
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(new_element, s);
