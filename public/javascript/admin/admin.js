@@ -19,7 +19,8 @@ var paginationNum = 20; // 分页参数，每页展示的数据记录数，应�
 // 系统JS访问路由设置
 var Route = {
     user_list: 'user/list',
-    user_opt: 'user/opt'
+    user_opt: 'user/opt',
+    school_list: 'school/list'
 };
 
 
@@ -604,6 +605,137 @@ Page.user_opt = (function(){
         openUploadModal();
         submit();
         cancel();
+    };
+
+    var init = function () {
+        bind();
+    };
+
+    return {
+        init: init
+    }
+})();
+
+
+
+
+
+Page.school_list = (function(){
+    var test = function(){
+        console.log(123)
+    };
+
+    var getSelectValue = function(selectId){
+        var selectVal = $("#" + selectId + " option:selected") .val();
+        return selectVal;
+    };
+
+    var btnAdd = function(){
+        $("#btnAdd").click(function(){
+            var schoolArea = getSelectValue("schoolArea");
+            var schoolDep = getSelectValue("schoolDep");
+            var schoolPost = getSelectValue("schoolPost");
+            var schoolScore = $("#schoolScore").val();
+
+            var addHtml = '<tr class="school-item"><td name="item-schoolArea">'+ schoolArea +'</td><td name="item-schoolDep">' + schoolDep + '</td><td name="item-schoolPost">' + schoolPost + '</td><td name="item-schoolScore">' + schoolScore + '</td><td><button type="button">删除</button></td></tr>';
+            console.log(schoolArea, schoolDep, schoolPost, schoolScore, addHtml);
+
+            $("#schoolList").append(addHtml);
+            btnDel();
+        });
+    };
+
+    var btnDel = function(){
+        console.log('fn_btndel')
+        $("#schoolList button").click(function(){
+            console.log('btndel_click');
+            $(this).parent().parent().remove();
+        });
+    };
+
+    var btnSubmit = function(){
+        $("#btnSubmit").click(function(){
+            console.log("btnsubmit_click");
+            var data = {};
+
+            var allItem = [];
+
+            var schoolList = $("#schoolList tr");
+            schoolList.each(function(){
+                var schoolArea = $(this).find("[name='item-schoolArea']").text();
+                var schoolDep = $(this).find("[name='item-schoolDep']").text();
+                var schoolPost = $(this).find("[name='item-schoolPost']").text();
+                var schoolScore = $(this).find("[name='item-schoolScore']").text();
+                console.log(schoolArea, schoolDep, schoolPost, schoolScore);
+
+                var schoolItem = {};
+                schoolItem.schoolArea = schoolArea;
+                schoolItem.schoolDep = schoolDep;
+                schoolItem.schoolPost = schoolPost;
+                schoolItem.schoolScore = schoolScore;
+
+                allItem.push(schoolItem);
+            });
+
+            data.schoolList = allItem;
+
+            console.log(data)
+
+            $.ajax({
+                url: Api_host + "school/add",
+                type: "post",
+                data: data,
+                success: function(res){
+                    var res = JSON.parse(res);
+                    console.log(res);
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            });
+        });
+    };
+
+    var getData = function(){
+        var schoolList = [];
+        $.ajax({
+            url: Api_host + "school/get",
+            type: "post",
+            data: {},
+            async: false,
+            success: function(res){
+                var res = JSON.parse(res);
+                schoolList = res.data;
+                console.log(res);
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+
+        return schoolList;
+    };
+
+    var initSchoolList = function(){
+        var schoolList = getData();
+        console.log("init", schoolList);
+        var len = schoolList.length;
+
+        var initHtml = "";
+        for(var m = 0; m < len; m++){
+            var item = schoolList[m];
+            initHtml += '<tr class="school-item"><td name="item-schoolArea">'+ item["schoolArea"] +'</td><td name="item-schoolDep">' + item["schoolDep"] + '</td><td name="item-schoolPost">' + item["schoolPost"] + '</td><td name="item-schoolScore">' + item["schoolScore"] + '</td><td><button type="button">删除</button></td></tr>';
+        }
+
+        $("#schoolList").append(initHtml);
+        btnDel();
+    };
+
+    var bind = function(){
+        test();
+        initSchoolList();
+        btnAdd();
+        btnSubmit();
     };
 
     var init = function () {

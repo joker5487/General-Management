@@ -70,3 +70,6 @@ $route['admin/excel/import']       = 'adminController/Excel/ExcelImport';
 $route['admin/test/index'] = 'adminController/Admin_Test/index';
 $route['admin/files/get']  = 'adminController/User/get_files';
 $route['admin/test/ci']  = 'test/index';
+$route['admin/school/list']  = 'adminController/School/show_page';
+$route['admin/school/add']  = 'adminController/School/add_school_info';
+$route['admin/school/get']  = 'adminController/School/get_school_data';

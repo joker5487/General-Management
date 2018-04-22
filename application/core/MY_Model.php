@@ -42,8 +42,6 @@ class MY_Model extends CI_Model
             $data[$key] = $value;
         }
 
-
-
         $this->db->insert_batch($tableName, $data, 'id');
         $this->db->trans_complete();
 
