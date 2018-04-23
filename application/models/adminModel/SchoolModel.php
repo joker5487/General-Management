@@ -20,4 +20,9 @@ class SchoolModel extends MY_Model
 
         return $schoolList;
     }
+
+    public function delete_data($delIds){
+        $res = $this->delete_batch('school', ['userId != ""'], 'id', $delIds);
+        return $res;
+    }
 }

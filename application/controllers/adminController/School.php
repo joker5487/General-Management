@@ -24,8 +24,17 @@ class School extends Admin_Controller {
 
     public function add_school_info(){
         $schoolList = $this->input->post('schoolList');
+        $delIds = $this->input->post('delIds');
 
-        $res = $this->schoolModel->insert_batch_data($schoolList);
+        $res = 'no operation';
+
+        if(!empty($delIds)){
+            $res = $this->schoolModel->delete_data($delIds);
+        }
+
+        if(!empty($schoolList)){
+            $res = $this->schoolModel->insert_batch_data($schoolList);
+        }
 
         $this->ajax_return('200', 'success get school list!', $res);
     }
