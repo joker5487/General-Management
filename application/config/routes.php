@@ -73,3 +73,5 @@ $route['admin/test/ci']  = 'test/index';
 $route['admin/school/list']  = 'adminController/School/show_page';
 $route['admin/school/add']  = 'adminController/School/add_school_info';
 $route['admin/school/get']  = 'adminController/School/get_school_data';
+$route['admin/redis']  = 'adminController/Admin_test/redis';
+$route['admin/response']  = 'adminController/Admin_test/responseData';

@@ -29,4 +29,29 @@ class Admin_Test extends Admin_Controller{
 
         $this->display(ADMIN_LAYOUT_PATH);
     }
+
+    public function redis(){
+        $redis = new Redis();
+
+        $redis->connect('127.0.0.1');
+        $redis->set('mm', '123123');
+
+        echo $redis->get('mm');
+    }
+
+    public function responseData(){
+        $this->load->library('response');
+        $response = new Response();
+
+        $format = $this->input->get('format');
+        $format = $format ? strtolower($format) : 'json';
+
+        $arr = array(
+            'aa' => 1212,
+            'bb' => 2323,
+            'cc' => array(3,4,5)
+        );
+        $data = $response->responseData($format, 200, 'success', $arr);
+        echo $data;
+    }
 }
