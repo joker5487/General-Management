@@ -22,6 +22,13 @@ class FileCache {
      * @param string $path 文件夹路径
      * @param string $fileName 文件名称
      * */
+    /* 逻辑说明
+     * 1、检查给定的文件路径是否存在
+     * 1-1、如果不存在，则返回 false
+     * 1-2、如果已存在，则检查缓存文件是否过期
+     * 1-2-1、如果已过期，则删除该缓存文件，返回 false
+     * 1-2-2、如果未过期，则获取文件内容，并返回
+     * */
     public function getFileCache($path = '', $fileName = ''){
         $dir = $this->_dir . $path;
         $filePath = $dir . $fileName . $this->_ext;
@@ -45,7 +52,7 @@ class FileCache {
         return $contents;
     }
 
-    /* （在文件不存在的情况下）创建缓存文件
+    /* 创建缓存文件
      * @param string $path 文件夹路径
      * @param string $fileName 文件名称
      * @param array 缓存数据
@@ -54,35 +61,20 @@ class FileCache {
     /* 逻辑说明
      * 1、检查给定的文件夹路径是否存在
      * 1-1、如果不存在，则创建文件夹，并赋权限
-     * 1-2、如果已存在，则检查文件是否存在
-     * 1-2-1、如果不存在，则创建生成缓存文件
-     * 1-2-2、如果已存在，则检查缓存文件是否过期
-     * 1-2-2-1、如果未过期，则直接返回 true
-     * 1-2-2-2、如果已过期，则删除该缓存文件，返回 true
+     * 1-2、如果已存在，则创建生成缓存文件
      * */
     public function createFileCache($path = '', $fileName = '', $data = [], $cacheTime = 0){
         $dir = $this->_dir . $path;
         $flg = self::createDir($dir);
         if(!$flg){
-            echo 'create dir failed.';
             return false;
         }
 
         $filePath = $dir . $fileName . $this->_ext;
-        // 缓存文件存在
-        if(is_file($filePath)){
-            // 判断缓存文件是否过期
-            $cacheFlg = self::checkCacheTime($filePath);
-            if(!$cacheFlg){ // 已过期
-                unlink($filePath);
-            }
 
-            return true;
-        }
-
-        // 文件不存在，创建文件
-        file_put_contents($filePath, $cacheTime . json_encode($data));
-        return true;
+        // 创建文件
+        $flg = file_put_contents($filePath, $cacheTime . json_encode($data));
+        return $flg;
     }
 
     /* 创建文件夹
