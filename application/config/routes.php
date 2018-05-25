@@ -75,3 +75,6 @@ $route['admin/school/add']  = 'adminController/School/add_school_info';
 $route['admin/school/get']  = 'adminController/School/get_school_data';
 $route['admin/redis']  = 'adminController/Admin_test/redis';
 $route['admin/response']  = 'adminController/Admin_test/responseData';
+$route['admin/log/write']  = 'adminController/Admin_test/logWrite';
+$route['admin/log/read']  = 'adminController/Admin_test/logRead';
+$route['admin/document/folder']  = 'adminController/Admin_test/document_folder';

@@ -15,6 +15,9 @@ class Admin_Test extends Admin_Controller{
     }
 
     public function index(){
+        var_dump(intval(000000));
+        exit;
+
         $layout = [];
         $layout['page'] = 'test';
         $layout['title'] = 'Page1';
@@ -53,5 +56,28 @@ class Admin_Test extends Admin_Controller{
         );
         $data = $response->responseData($format, 200, 'success', $arr);
         echo $data;
+    }
+
+    public function logWrite(){
+        $this->load->library('logs');
+        $logs = new Logs();
+
+        $res = $logs->logWrite('logtest/', 1, 'test1', 'This is log test');
+        var_dump($res);
+    }
+
+    public function logRead(){
+        $this->load->library('logs');
+        $logs = new Logs();
+
+        $res = $logs->logRead('logtest/', 'error_logs');
+        var_dump($res);
+    }
+
+    public function document_folder(){
+        $this->load->library('document');
+        $document = new Document();
+
+        $files = $document->get_folders();
     }
 }
