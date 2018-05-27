@@ -78,6 +78,6 @@ class Admin_Test extends Admin_Controller{
         $this->load->library('document');
         $document = new Document();
 
-        $files = $document->get_folders();
+        $files = $document->get_documents();
     }
 }

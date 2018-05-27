@@ -14,11 +14,12 @@ class Document
         $this->_dir = FCPATH . 'application/logs/logtest/';
     }
 
-    public function get_folders($path = ''){
+    public function get_documents($path = '', $sort = 'desc', $filed = 'filemtime'){
         $folders = [];
         $files = [];
 
         $dir = $this->_dir . $path;
+        $sort = strtolower($sort);
 
         if(is_dir($dir)){
             if($dh = opendir($dir)){
@@ -45,6 +46,15 @@ class Document
             }
         }
 
+        if($sort === 'desc'){
+            $sortOder = SORT_DESC;
+        }else{
+            $sortOder = SORT_ASC;
+        }
+
+        $folders = $this->my_sort($folders, $filed, $sortOder);
+        $files = $this->my_sort($files, $filed, $sortOder);
+
         $documents['folders'] = $folders;
         $documents['files'] = $files;
 
@@ -53,7 +63,19 @@ class Document
         return $documents;
     }
 
-    public function get_files(){
-
+    function my_sort($arrays, $sort_key, $sort_order = SORT_DESC, $sort_type = SORT_REGULAR){
+        if(is_array($arrays)){
+            foreach ($arrays as $array){
+                if(is_array($array)){
+                    $key_arrays[] = $array[$sort_key];
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
+        array_multisort($key_arrays,$sort_order,$arrays);
+        return $arrays;
     }
 }
