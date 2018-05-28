@@ -80,4 +80,13 @@ class Admin_Test extends Admin_Controller{
 
         $files = $document->get_documents();
     }
+
+    public function url_format(){
+        $this->load->helper('url_format');
+
+        $url = 'http://aaaa//sdsad/adads/dss/sds.txt';
+        $newUrl = url_format($url, 0);
+
+        var_dump($newUrl);
+    }
 }

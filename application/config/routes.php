@@ -78,3 +78,4 @@ $route['admin/response']  = 'adminController/Admin_test/responseData';
 $route['admin/log/write']  = 'adminController/Admin_test/logWrite';
 $route['admin/log/read']  = 'adminController/Admin_test/logRead';
 $route['admin/document/folder']  = 'adminController/Admin_test/document_folder';
+$route['admin/helper/url']  = 'adminController/Admin_test/url_format';
