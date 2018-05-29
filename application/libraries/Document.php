@@ -12,15 +12,17 @@ class Document
 
     // 初始化默认路径
     public function __construct(){
-        $this->_dir = FCPATH . 'application/logs/';
+        $this->_dir = FCPATH;
     }
 
     /* 获取指定目录下面的文件夹和文件
      * @param string $path 指定的文件夹目录
      * @param string $sort 文件排序标识
      * @param string $filed 文件排序信息标识(目前只有 name - 文件名称 filectime - 创建时间 filemtime - 修改时间)
+     * @param int $sortType 文件排序类型(1 分类排序 或 0 混合排序)
+     * @param bool $isHidden 显示标识，是否显示隐藏文件(false 为不显示，true 为显示)
      * */
-    public function get_documents($path = '', $sort = 'desc', $filed = 'filemtime'){
+    public function get_documents($path = '', $sort = 'desc', $filed = 'filemtime', $sortType = 0, $isHidden = false){
         $folders = [];
         $files = [];
 
@@ -31,16 +33,18 @@ class Document
         if(is_dir($dir)){
             if($dh = opendir($dir)){
                 while(($file = readdir($dh)) !== FALSE){
-
-                    if($file != "." && $file != ".."){
+                    // 判断是否需要显示隐藏文件
+                    if((!$isHidden && !preg_match('/^\./', $file)) || ($isHidden && !in_array($file, ['.', '..']))){
                         $newFile = $dir . DIRECTORY_SEPARATOR . $file;
                         if((is_dir($newFile))){
+                            $folderInfo['type'] = 'folder';
                             $folderInfo['name'] = $file;
                             $folderInfo['filectime'] = stat($newFile)['ctime']; // 创建时间
                             $folderInfo['filemtime'] = stat($newFile)['mtime']; // 修改时间
 
                             $folders[] = $folderInfo;
                         }else{
+                            $fileInfo['type'] = 'file';
                             $fileInfo['name'] = $file;
                             $fileInfo['filectime'] = filectime($newFile); // 创建时间
                             $fileInfo['filemtime'] = filemtime($newFile); // 修改时间
@@ -60,11 +64,25 @@ class Document
             $sortOder = SORT_ASC;
         }
 
-        $folders = $this->my_sort($folders, $filed, $sortOder);
-        $files = $this->my_sort($files, $filed, $sortOder);
-
-        $documents['folders'] = $folders;
-        $documents['files'] = $files;
+        $documents = [];
+        // 混合排序
+        if(!$sortType){
+            $mixFiles = array_merge($folders, $files);
+            if(!empty($mixFiles)){
+                $documents = $this->my_sort($mixFiles, $filed, $sortOder);
+            }
+        }
+        // 分类排序
+        else{
+            if(!empty($folders)){
+                $folders = $this->my_sort($folders, $filed, $sortOder);
+                $documents['folders'] = $folders;
+            }
+            if(!empty($files)){
+                $files = $this->my_sort($files, $filed, $sortOder);
+                $documents['files'] = $files;
+            }
+        }
 
         return $documents;
     }

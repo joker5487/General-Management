@@ -79,6 +79,9 @@ class Admin_Test extends Admin_Controller{
         $document = new Document();
 
         $files = $document->get_documents();
+
+        echo "<pre>";
+        var_dump($files);
     }
 
     public function url_format(){
