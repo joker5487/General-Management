@@ -7,12 +7,13 @@
         <div class="box-body">
             <div class="table-responsive">
 
-                <div class="select-files" id="log_files">
+
+                <div class="form-horizontal select-files" id="log_files">
 
                 </div>
 
                 <div class="log-info">
-                    <textarea name="log-content" id="log_contents" disabled="true" rows="50" style="width: 100%">
+                    <textarea name="log-content" id="log_contents" disabled="true" rows="20">
                         
                     </textarea>
                 </div>
@@ -24,7 +25,8 @@
 </section>
 
 <script id="btLogFiles" type="text/html">
-    <select id="select_files" class="">
+    <label for="" class="col-sm-2 control-label">选择查看的日志文件：</label>
+    <select id="select_files" class="form-control select-log-files">
         <option name="" value="">--请选择--</option>
     <%
     var filesCount = data.length;

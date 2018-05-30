@@ -22,7 +22,7 @@ class Log extends Admin_Controller {
         $this->load->library('document');
         $this->_document = new Document();
 
-        $aa = $this->_log_dir = 'application/logs/logtest/';
+        $aa = $this->_log_dir = 'application/logs/';
     }
 
     public function show_page()

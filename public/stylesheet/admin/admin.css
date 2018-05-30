@@ -43,3 +43,14 @@
 #userList tr{
     cursor: pointer;
 }
+
+/* system logs */
+.select-log-files{
+    width: 35%;
+}
+
+#log_contents{
+    width: 100%;
+    margin-top: 20px;
+}
+
