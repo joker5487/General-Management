@@ -96,3 +96,8 @@ define('PUBLIC_IMG_URL', APPPATH . 'public/images/');
 define('ADMIN_CSS_URL', APPPATH . 'public/stylesheet/admin/');
 define('ADMIN_JS_URL', APPPATH . 'public/javascript/admin/');
 define('ADMIN_IMG_URL', APPPATH . 'public/images/admin/');
+
+// error code
+defined('CODE_SUCCESS')       OR define('CODE_SUCCESS', '200'); // 成功
+defined('CODE_ERROR')         OR define('CODE_ERROR', '200'); // 失败
+defined('CODE_NO_RESULT')     OR define('CODE_NO_RESULT', '201'); // 没有数据

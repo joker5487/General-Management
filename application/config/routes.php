@@ -65,6 +65,11 @@ $route['admin/upload']             = 'adminController/Upload/uploadFile';
 $route['admin/excel/export']       = 'adminController/Excel/ExcelExport';
 $route['admin/excel/import']       = 'adminController/Excel/ExcelImport';
 
+// log page
+$route['admin/logs/show']               = 'adminController/Log/show_page';
+$route['admin/logs/file/get']           = 'adminController/Log/get_log_filels';
+$route['admin/logs/contents']           = 'adminController/Log/get_log_contents';
+
 
 // 暂未使用
 $route['admin/test/index'] = 'adminController/Admin_Test/index';

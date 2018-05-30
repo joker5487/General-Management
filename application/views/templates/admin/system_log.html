@@ -1,0 +1,40 @@
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">System Logs</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="table-responsive">
+
+                <div class="select-files" id="log_files">
+
+                </div>
+
+                <div class="log-info">
+                    <textarea name="log-content" id="log_contents" disabled="true" rows="50" style="width: 100%">
+                        
+                    </textarea>
+                </div>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+    </div>
+</section>
+
+<script id="btLogFiles" type="text/html">
+    <select id="select_files" class="">
+        <option name="" value="">--请选择--</option>
+    <%
+    var filesCount = data.length;
+    if(filesCount > 0){
+    %>
+        <%
+        for(var m = 0; m < filesCount; m++){
+        %>
+            <option name="" value="<%=data[m].name%>"><%=data[m].name%></option>
+        <% } %>
+    <% } %>
+    </select>
+</script>

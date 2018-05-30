@@ -20,6 +20,7 @@ var paginationNum = 20; // 分页参数，每页展示的数据记录数，应�
 var Route = {
     user_list: 'user/list',
     user_opt: 'user/opt',
+    show_log: 'logs/show',
     school_list: 'school/list'
 };
 
@@ -794,6 +795,91 @@ Page.school_list = (function(){
         initSchoolList();
         btnAdd();
         btnSubmit();
+    };
+
+    var init = function () {
+        bind();
+    };
+
+    return {
+        init: init
+    }
+})();
+
+Page.show_log = (function(){
+    var get_log_files = function(){
+        var log_files = [];
+        $.ajax({
+            url: Api_host + "logs/file/get",
+            type: "post",
+            data: {},
+            async: false,
+            success: function(res){
+                var res = JSON.parse(res);
+                console.log(res);
+                if(res.status != "200"){
+                    alert(res.msg);
+                    return false;
+                }
+                log_files = res.data;
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+
+        return log_files;
+    };
+
+    var bind_log_files = function(){
+        var log_files = get_log_files();
+
+        console.log(log_files)
+
+        var html = bt("btLogFiles", {"data": log_files});
+        $("#log_files").html(html);
+    };
+
+    var show_contents = function(){
+        $("#select_files").on('change', function(){
+            var file_name = $('#select_files option:selected').val();
+
+            if(file_name == ""){
+                $("#log_contents").val("");
+                return false;
+            }
+
+            var data = {
+                "file_name" : file_name
+            };
+
+            var log_contents = "";
+            $.ajax({
+                url: Api_host + "logs/contents",
+                type: "post",
+                data: data,
+                async: false,
+                success: function(res){
+                    var res = JSON.parse(res);
+                    console.log(res);
+                    if(res.status != "200"){
+                        alert(res.msg);
+                        return false;
+                    }
+                    log_contents = res.data;
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            });
+
+            $("#log_contents").val(log_contents);
+        });
+    };
+
+    var bind = function(){
+        bind_log_files();
+        show_contents();
     };
 
     var init = function () {

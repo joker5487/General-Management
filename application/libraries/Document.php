@@ -17,12 +17,12 @@ class Document
 
     /* 获取指定目录下面的文件夹和文件
      * @param string $path 指定的文件夹目录
-     * @param string $sort 文件排序标识
-     * @param string $filed 文件排序信息标识(目前只有 name - 文件名称 filectime - 创建时间 filemtime - 修改时间)
      * @param int $sortType 文件排序类型(1 分类排序 或 0 混合排序)
      * @param bool $isHidden 显示标识，是否显示隐藏文件(false 为不显示，true 为显示)
+     * @param string $sort 文件排序标识
+     * @param string $filed 文件排序信息标识(目前只有 name - 文件名称 filectime - 创建时间 filemtime - 修改时间)
      * */
-    public function get_documents($path = '', $sort = 'desc', $filed = 'filemtime', $sortType = 0, $isHidden = false){
+    public function get_documents($path = '', $sortType = 0, $isHidden = false, $sort = 'desc', $filed = 'filemtime'){
         $folders = [];
         $files = [];
 
@@ -76,12 +76,12 @@ class Document
         else{
             if(!empty($folders)){
                 $folders = $this->my_sort($folders, $filed, $sortOder);
-                $documents['folders'] = $folders;
             }
             if(!empty($files)){
                 $files = $this->my_sort($files, $filed, $sortOder);
-                $documents['files'] = $files;
             }
+            $documents['folders'] = $folders;
+            $documents['files'] = $files;
         }
 
         return $documents;
