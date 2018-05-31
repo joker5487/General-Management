@@ -16,21 +16,10 @@ $config['asideMenu'] = array(
         'subMenu' => array()
     ),
     array(
-        'menu' => 'Menu1',
+        'menu' => 'System Logs',
         'icon' => 'dashboard',
-        'path' => '',
-        'subMenu' => array(
-            array(
-                'menu' => 'Menu1-user',
-                'icon' => '',
-                'path' => 'admin/user/list',
-            ),
-            array(
-                'menu' => 'Menu1-2',
-                'icon' => '',
-                'path' => '',
-            )
-        )
+        'path' => 'admin/logs/show',
+        'subMenu' => array()
     ),
     array(
         'menu' => 'Menu2',
