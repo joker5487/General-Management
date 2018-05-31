@@ -33,7 +33,7 @@ class Log extends Admin_Controller {
         $this->page_display($page, $title);
     }
 
-    public function get_log_filels()
+    public function get_log_files()
     {
         $log_dir = $this->_log_dir;
         $document = $this->_document;

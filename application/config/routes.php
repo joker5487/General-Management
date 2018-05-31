@@ -67,7 +67,7 @@ $route['admin/excel/import']       = 'adminController/Excel/ExcelImport';
 
 // log page
 $route['admin/logs/show']               = 'adminController/Log/show_page';
-$route['admin/logs/file/get']           = 'adminController/Log/get_log_filels';
+$route['admin/logs/file/get']           = 'adminController/Log/get_log_files';
 $route['admin/logs/contents']           = 'adminController/Log/get_log_contents';
 
 
