@@ -14,8 +14,6 @@ class User extends Admin_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model('adminModel/userModel');
-//        $this->load->helper('form');
-//        $this->load->library('form_validation');
     }
 
     public function user_list(){
@@ -66,7 +64,18 @@ class User extends Admin_Controller
 
         $userInfo = [];
         if($userId){
-            $userInfo = $this->userModel->get_user_info_by_id($userId);
+            $redis = $this->redis_connect();
+            $user_info = $redis->get('user_info_' . $userId);
+            if(!empty($user_info))
+            {
+                $userInfo = json_decode($userInfo, true);
+            }
+            else
+            {
+                $userInfo = $this->userModel->get_user_info_by_id($userId);
+
+                $redis->setex('user_info_' . $userId, 10, json_encode($userInfo));
+            }
         }
 
         $this->ajax_return('200', 'success get user info!', $userInfo);

@@ -48,4 +48,16 @@ class Admin_Controller extends MY_Controller{
         $this->display(ADMIN_LAYOUT_PATH);
     }
 
+    public function redis_connect($host = '127.0.0.1', $port = 6379)
+    {
+        $redis = new Redis();
+        $status = $redis->connect($host, $port);
+
+        if(!$status){
+            return false;
+        }
+
+        return $redis;
+    }
+
 }
