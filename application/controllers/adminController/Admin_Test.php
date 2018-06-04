@@ -92,4 +92,28 @@ class Admin_Test extends Admin_Controller{
 
         var_dump($newUrl);
     }
+
+    // 异常
+    public function exception()
+    {
+        // 在 try 块 触发异常
+        try
+        {
+            $this->checkNum(2);
+        }
+        // 捕获异常
+        catch(Exception $e)
+        {
+            echo 'Message: ' . $e->getMessage();
+        }
+    }
+    private function checkNum($number)
+    {
+        if($number>1)
+        {
+            throw new Exception("Value must be 1 or below");
+        }
+        return true;
+    }
+
 }

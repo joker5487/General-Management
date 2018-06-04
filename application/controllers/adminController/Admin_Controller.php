@@ -53,8 +53,9 @@ class Admin_Controller extends MY_Controller{
         $redis = new Redis();
         $status = $redis->connect($host, $port);
 
-        if(!$status){
-            return false;
+        if( ! $status)
+        {
+            return  false;
         }
 
         return $redis;

@@ -68,13 +68,13 @@ class User extends Admin_Controller
             $user_info = $redis->get('user_info_' . $userId);
             if(!empty($user_info))
             {
-                $userInfo = json_decode($userInfo, true);
+                $userInfo = json_decode($user_info, true);
             }
             else
             {
                 $userInfo = $this->userModel->get_user_info_by_id($userId);
 
-                $redis->setex('user_info_' . $userId, 10, json_encode($userInfo));
+                $redis->setex('user_info_' . $userId, 120, json_encode($userInfo));
             }
         }
 
